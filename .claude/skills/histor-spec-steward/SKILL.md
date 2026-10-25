@@ -19,7 +19,7 @@ For the proposed field/kind, answer in writing (paste into the PR):
 3. **Integrity:** is it in the signed body? (Everything except `seal`/`proof` is.) Does it change verification?
 4. **Neutrality:** would a competitor be comfortable emitting it? No SinewsLink-specific semantics.
 5. **Emittability:** can at least the MCP proxy, the Claude Code hook, or a gateway adapter actually populate it? If not, mark it optional and document the source.
-6. **Agent Receipt Protocol alignment:** does the protocol already have this field? If yes, map to it in `agentReceipts.js`. If not, add it to `docs/06-agent-receipts-extension-proposals.md` as an upstream proposal.
+6. **Export alignment:** if the change affects an action, denial or approval, update the Verifiable Credential export mapping in `agentReceipts.js` and keep the export tests green. Do not propose Histor fields to outside projects from this repo.
 7. **OTel alignment:** is there an existing OTel GenAI attribute? Map to it rather than inventing a parallel name.
 
 ## Step 3: Make the change everywhere, in one commit

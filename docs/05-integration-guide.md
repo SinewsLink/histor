@@ -74,8 +74,8 @@ Then add `"signer": { "socket": "/run/histor/signer.sock" }` to each `histor.con
 ## 8. Rotate keys inside the chain
 `npx histor rotate .histor/ledger/<stream>.jsonl --reason "quarterly"` appends a rotation receipt signed with the outgoing key; verifiers follow the hand-off from the chain. The commitment key is never rotated by this command.
 
-## 9. Publish as Agent Receipts
-`npx histor export .histor/ledger/<stream>.jsonl --issuer did:web:yourco.com:agents --operator did:web:yourco.com --operator-name "Your Co"` writes a signed Agent Receipt v0.5.0 chain that any Agent Receipt Protocol verifier accepts.
+## 9. Export as W3C Verifiable Credentials
+`npx histor export .histor/ledger/<stream>.jsonl --issuer did:web:yourco.com:agents --operator did:web:yourco.com --operator-name "Your Co"` writes the stream as a signed, chained set of W3C Verifiable Credentials that standard VC tooling can verify, so the evidence is never locked into Histor.
 
 ## 10. Look at it
 `npx histor serve` opens a local viewer of the latest stream. For auditors, send `web-verifier/index.html` plus the receipts and keyring; it verifies everything in their browser.

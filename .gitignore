@@ -7,3 +7,10 @@ node_modules/
 .claude/*
 !.claude/skills/
 CLAUDE.local.md
+
+# goose crash test outputs
+examples/goose-crash-test/.home/
+examples/goose-crash-test/.histor/
+examples/goose-crash-test/*.log
+examples/goose-crash-test/tool-result-seen
+examples/goose-crash-test/hang.flag

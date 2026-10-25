@@ -50,7 +50,7 @@ Before any release, walk this list. When you find a new case, add it here **firs
 | C17 | Receipt appended after the stream ended | ✅ | terminal marker; verifier fails |
 | C18 | Key change without hand-off | ✅ | in-chain `key.rotation` signed by outgoing key |
 | C19 | Signing key exposed in the agent process | ✅ | `histor signer` out-of-process daemon |
-| C20 | Cross-implementation drift | ✅ | conformance vectors (positive + MUST-reject); Agent Receipts vectors pass byte for byte |
+| C20 | Cross-implementation drift | ✅ | conformance vectors (positive + MUST-reject); third-party canonicalization vectors pass byte for byte |
 | C14 | Signature replay across contexts | ✅ | domain-separated signing prefixes |
 | C15 | Merkle second-preimage | ✅ | RFC 9162 leaf/node prefixes |
 
@@ -116,5 +116,5 @@ Before any release, walk this list. When you find a new case, add it here **firs
 | G7 | Sampling of telemetry | 📐 | spec §3.1: medium+ consequence, denials, approvals, credentials and changes MUST NOT be sampled |
 | G8 | Vendor neutrality of spec | 📐 | `GOVERNANCE.md` |
 | G9 | Approvals decided in other vendors' systems | 📐 | spec §4.10 `evidence_ref` prefixes; integration guide §6 |
-| G12 | Interop with the Agent Receipt Protocol | ✅ | export + verify; their schema and vectors in tests |
+| G12 | Portable export (W3C Verifiable Credentials) | ✅ | export + verify; third-party schema and vectors in tests |
 | G10 | Alignment with OWASP Agent Control Standard | 🗺️ | spec §16.7; hook mapping in docs/04 |

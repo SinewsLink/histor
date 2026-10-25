@@ -149,7 +149,25 @@ test('web verifier (WebCrypto) agrees with the reference verifier on all conform
   assert.ok(fs.readFileSync(path.join(root, 'web-verifier/index.html'), 'utf8').includes('async function verifyStream'));
 });
 
-test('CLI: quickstart init, export to Agent Receipts, local viewer API', async () => {
+test('CLI: refuses a self-approval at decision time (separation of duties)', async () => {
+  const cli = path.join(root, 'packages/cli/bin/histor.js');
+  const w = tmp('histor-sod-');
+  assert.equal(spawnSync(process.execPath, [cli, 'init', '--witness', w], { encoding: 'utf8' }).status, 0);
+  const cfgPath = path.join(w, 'histor.config.json');
+  const cfg = JSON.parse(fs.readFileSync(cfgPath, 'utf8'));
+  cfg.principal = { subject_id: 'requester@example.com', idp: 'local', authenticated: false };
+  fs.writeFileSync(cfgPath, JSON.stringify(cfg));
+  await session(cfgPath, {}, [['delete_record', { id: 'r-1001' }]]);
+  const pend = spawnSync(process.execPath, [cli, 'pending', '--witness', w], { encoding: 'utf8' });
+  const rid = pend.stdout.trim().split(/\s+/)[0];
+  const self = spawnSync(process.execPath, [cli, 'approve', rid, '--approver', 'requester@example.com', '--witness', w], { encoding: 'utf8' });
+  assert.equal(self.status, 2, 'self-approval must be refused');
+  assert.match(self.stderr, /separation of duties/i);
+  const other = spawnSync(process.execPath, [cli, 'approve', rid, '--approver', 'lead@example.com', '--witness', w], { encoding: 'utf8' });
+  assert.equal(other.status, 0, other.stderr);
+});
+
+test('CLI: quickstart init, export to Verifiable Credentials, local viewer API', async () => {
   const cli = path.join(root, 'packages/cli/bin/histor.js');
   const w = tmp('histor-cli-');
   const init = spawnSync(process.execPath, [cli, 'init', '--witness', w], { encoding: 'utf8' });

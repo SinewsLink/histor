@@ -1260,7 +1260,7 @@
         "type": {
           "type": "string",
           "pattern": "^[a-z][a-z0-9_]*(\\.[a-z0-9_]+)+$",
-          "description": "Dotted action type, aligned with the Agent Receipt Protocol taxonomy where one exists (e.g. filesystem.file.delete)."
+          "description": "Dotted action type, aligned with a shared open action taxonomy where one exists (e.g. filesystem.file.delete)."
         }
       },
       "required": [

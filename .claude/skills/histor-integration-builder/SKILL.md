@@ -34,7 +34,7 @@ Hard rules (the reviewer will reject violations):
 9. Close every stream: the last receipt of a session is appended with `{ terminal: true, status }` ('interrupted' on signals/aborts). Use one stream per session or per single writer.
 10. Use `openLedger(config, …)` so the emitter works both with a local key and with the out-of-process `histor signer` (production). Never require the signing key in the emitter when `config.signer` is set.
 11. Record risk signals (`tool_definition_suspicious`, `loop_suspected`, `policy_flag`) as evidence; they never block on their own.
-12. Check interop: the emitter's streams must export cleanly with `exportAgentReceipts()` and validate against the vendored Agent Receipts schema.
+12. Check interop: the emitter's streams must export cleanly with `exportAgentReceipts()` and validate against the vendored Verifiable Credential receipt schema.
 
 ## Step 3: Build
 - JS: depend on `@sinewslink/histor-core`. Python: use `histor-core-py` once it exists, and verify against `spec/test-vectors/`.

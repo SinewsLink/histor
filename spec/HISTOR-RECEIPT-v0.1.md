@@ -1,6 +1,6 @@
 # SL Histor Receipt Format: Specification v0.1
 
-> **Relationship to the Agent Receipt Protocol.** Histor receipts are an *evidence profile* that sits alongside the open [Agent Receipt Protocol](https://agentreceipts.ai) (Apache-2.0), not a rival standard. Every Histor action stream can be exported as a valid, signed Agent Receipt chain (§17), and Histor verifies Agent Receipts produced by other implementations. Histor adds what auditors and finance need on top: approvals bound to the exact payload, keyed privacy commitments, four-bucket cost reconciled to the invoice, Merkle inclusion proofs, tool-definition drift and multi-vendor approval evidence. These additions are being proposed upstream as protocol extensions.
+> **Scope.** A Histor receipt is signed, hash-chained evidence of one agent event: what ran, under whose authority, which human approved that exact payload, and what it cost. It builds on established standards (RFC 8785 canonicalization, Ed25519 per RFC 8032, RFC 9162 Merkle trees and inclusion proofs) and exports to W3C Verifiable Credentials (§17), so evidence stays portable. What it carries that logs and traces do not: approvals bound to the exact payload, keyed privacy commitments, four-bucket cost reconciled to the invoice, Merkle inclusion proofs, tool-definition drift and multi-vendor approval evidence.
 
 **Status:** Draft for implementation · **Editors:** SinewsLink Inc. (until neutral governance; see `GOVERNANCE.md`) · **License:** Apache-2.0
 **Schemas:** `spec/schema/histor-receipt.v0.1.schema.json` (normative), plus batch, keyring, approval-decision and pricing schemas.
@@ -289,13 +289,12 @@ The reference implementation in this repository meets L4 locally (anchoring is s
 ## 16a. Risk signals recorded by the reference emitters
 Signals never block on their own; policy decides. `tool_definition_suspicious` (invisible/bidirectional characters, instruction-override phrases, encoded blobs or URLs in a tool description), `loop_suspected` (identical payload repeated within a window), `policy_flag` (a rule marked `flag: true`), `secret_in_model_context`. Each appears in `risk.signals[]` with a severity and source.
 
-## 17. Agent Receipt Protocol interoperability
-- `exportAgentReceipts()` / `histor export` converts a stream's `action` and `denial` receipts to Agent Receipt v0.5.0 credentials, chained and signed per that protocol (RFC 8785 over the receipt minus `proof`, Ed25519, multibase `u` proof value).
+## 17. Export to W3C Verifiable Credentials
+- `exportAgentReceipts()` / `histor export` converts a stream's `action` and `denial` receipts to W3C Verifiable Credential receipts (receipt profile v0.5.0), chained and signed (RFC 8785 over the receipt minus `proof`, Ed25519, multibase `u` proof value).
 - Mapping: `action.type` (or a taxonomy mapping from tool and category; `unknown` with `target.system` otherwise) · risk = max(consequence, taxonomy default), never downgraded · approved actions carry `authorization.grant_ref = histor:approval:<id>` · denials become `outcome.status = failure` · `issuer.runtime` links back to the Histor receipt id, content hash and stream.
-- Histor's test suite proves byte-for-byte agreement with the protocol's canonicalization and receipt-hash vectors, verifies signed receipts produced by its SDKs, and validates every exported receipt against its JSON Schema.
+- The test suite checks byte-for-byte agreement with third-party canonicalization and receipt-hash vectors, verifies signed credentials produced by other implementations, and validates every exported credential against the profile's JSON Schema.
 
-## 16. Open issues for v0.2
-0. Upstream the five extensions to the Agent Receipt Protocol (approval object with payload binding and SoD, keyed parameter commitments, cost object, Merkle inclusion proofs, tool-surface drift).
+## 18. Open issues for v0.2
 1. Approval signatures by approver keys (WebAuthn/passkey assertion over the payload commitment).
 2. Cross-stream ordering for multi-agent systems (vector clocks or a session-level coordinator stream).
 3. Formal OTel semantic-convention proposal for `histor.*`.

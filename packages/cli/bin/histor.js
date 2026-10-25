@@ -109,7 +109,7 @@ const cmds = {
     const ars = exportAgentReceipts(readLedger(file), { privatePem: key.privatePem, verificationMethod: flag('verification-method', `${flag('issuer', 'did:web:example.com:histor')}#${key.keyId}`), issuerId: flag('issuer', 'did:web:example.com:histor'), operator: flag('operator') ? { id: flag('operator'), name: flag('operator-name', flag('operator')) } : undefined });
     const dest = flag('out', file.replace(/\.jsonl$/, '.agent-receipts.json'));
     fs.writeFileSync(dest, JSON.stringify(ars, null, 2));
-    out(`${ars.length} Agent Receipts (v0.5.0) written to ${dest}`);
+    out(`${ars.length} Verifiable Credential receipts written to ${dest}`);
   },
   serve() {
     const port = Number(flag('port', 7337));
@@ -138,6 +138,10 @@ const cmds = {
 function decision(kind) {
   const id = pos[0] || die(`usage: histor ${kind === 'approved' ? 'approve' : 'deny'} <request_id> --approver <subject_id> [--idp oidc] [--ttl 3600] [--reason "..."]`);
   const approver = { subject_id: flag('approver') || die('--approver required (the accountable human)'), idp: flag('idp', 'local-cli'), host: os.hostname() };
+  const pendingReq = listPending(dir('approvals')).find((r) => r.request_id === id);
+  if (kind === 'approved' && pendingReq?.principal?.subject_id && pendingReq.principal.subject_id === approver.subject_id) {
+    die(`refused: ${approver.subject_id} is the person who requested this action. Separation of duties needs a different approver, and the proxy would not honour a self-approval anyway.`, 2);
+  }
   const { request, decision: d } = decide(dir('approvals'), { requestId: id, approver, decision: kind, ttlSeconds: Number(flag('ttl', 3600)), reason: flag('reason', null) });
   out(`${kind} ${request.server}/${request.tool} for ${request.principal?.subject_id}; valid until ${d.expires_at}, single use, bound to ${d.payload_hash.slice(0, 24)}…`);
 }

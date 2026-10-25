@@ -2,6 +2,9 @@
 ## 0.2.0 (2026-10-25): SL Histor
 - Repository is github.com/SinewsLink/histor (working folder previously `sl-histor`); all packages at 0.2.0 with repository metadata and public publish access; emitted `software.version` now 0.2.0
 - Claude skills moved to `.claude/skills/` so Claude Code loads them in this repo; added CLAUDE.md
+- Positioning: README and spec describe Histor by the open standards it implements (RFC 8785, RFC 8032, RFC 9162, MCP, W3C Verifiable Credentials); export is documented as W3C Verifiable Credentials; upstream-proposal document removed from this repo
+- `histor approve` refuses a self-approval at decision time (exit 2), with a regression test; the proxy already ignored such approvals
+- `examples/goose-crash-test/`: goose 1.56.0 crash-and-redispatch test: a durable-execution retry moves the same $500 twice without Histor and once with it
 - Windows: the signer maps its socket path to a named pipe (`ipcPath`), so `histor signer` and `"signer": {"socket": …}` work unchanged on Windows; tests resolve repo paths with `fileURLToPath`, fixing failures on Windows and on any checkout path containing spaces
 - Renamed SL Witness → SL Histor; receipt format → Histor receipt (`histor_version`); CLI `histor`; packages `@sinewslink/histor-*`; config `.histor/histor.config.json`
 - Agent Receipt Protocol interop: export signed v0.5.0 chains, verify theirs; their canonicalization, receipt-hash and signature vectors pass in our suite; exports validate against their schema
