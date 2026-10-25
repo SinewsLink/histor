@@ -1,0 +1,116 @@
+{
+  "histor_version": "0.1",
+  "receipt_id": "01a14d86-16a9-708c-8391-62c5039dfbeb",
+  "kind": "denial",
+  "issued_at": "2026-10-18T05:39:55.689Z",
+  "issuer": {
+    "type": "mcp-proxy",
+    "software": {
+      "name": "histor-mcp-proxy",
+      "version": "0.1.0"
+    },
+    "host": "vm",
+    "key_id": "ed25519:ce8afd93723fa88dc38a99f860041c9c"
+  },
+  "tenant": {
+    "org_id": "sinewslink",
+    "environment": "dev",
+    "deployment_id": "founder-laptop",
+    "data_residency": "CA"
+  },
+  "principal": {
+    "subject_id": "agent-operator@sinewslink.com",
+    "idp": "env",
+    "authenticated": false
+  },
+  "agent": {
+    "agent_id": "sl-ops-agent",
+    "name": "SinewsLink Ops Agent",
+    "version": "0.1.0",
+    "owner": {
+      "subject_id": "founder@sinewslink.com",
+      "team": "engineering"
+    },
+    "client": {
+      "name": "demo-agent",
+      "version": "0.1"
+    }
+  },
+  "session": {
+    "session_id": "01a14d86-1678-7f86-bad8-9ae48828c4bf",
+    "protocol": "mcp",
+    "protocol_version": "2025-06-18"
+  },
+  "trace": {
+    "jsonrpc_id": 4,
+    "traceparent": null
+  },
+  "action": {
+    "category": "tool_call",
+    "tool": {
+      "protocol": "mcp",
+      "server_name": "demo-records",
+      "server_version": "1.0.0",
+      "tool_name": "delete_record",
+      "tool_definition_hash": "sha256:00a2fee7972af11f57a65d9b626a0616ad81d2778d340e0a9eeeb307f0b747d6",
+      "annotations": {
+        "destructiveHint": true
+      }
+    },
+    "input": {
+      "commitment": {
+        "alg": "hmac-sha256",
+        "key_id": "ck:ae7c0b07e548404a",
+        "value": "hmac-sha256:75f64e6ff1b1497e75bca7d976418412c218abfbac697e419f9e4c13e3f6270c"
+      },
+      "size_bytes": 15,
+      "secret_scan": {
+        "secret_material_detected": false,
+        "types": []
+      }
+    },
+    "payload_commitment": "hmac-sha256:87b7ee0de2ac839dd988bc755aaf58747b653093c974127c894c147d1856b83f",
+    "consequence": "high",
+    "reversibility": "irreversible"
+  },
+  "authorization": {
+    "decision": "require_approval",
+    "rule_id": "destructive",
+    "allowed_by_default": false,
+    "policy": {
+      "engine": "histor-reference",
+      "policy_id": "sinewslink-default",
+      "policy_version": "2026-10-10.1",
+      "policy_hash": "sha256:804601e8152da2c341f537a39547f732ae81a8c30d24d7acc68d5e3ad3becf53"
+    },
+    "evaluated_at": "2026-10-18T05:39:55.689Z",
+    "enforcer": {
+      "type": "mcp-proxy",
+      "key_id": "ed25519:ce8afd93723fa88dc38a99f860041c9c"
+    }
+  },
+  "approval": {
+    "required": true,
+    "status": "pending",
+    "request_id": "01a14d86-16a9-7ede-a4e5-80f2c7342779"
+  },
+  "outcome": {
+    "status": "denied",
+    "started_at": "2026-10-18T05:39:55.689Z",
+    "ended_at": "2026-10-18T05:39:55.689Z",
+    "detail": "Human approval required (high consequence, rule destructive). Request 01a14d86-16a9-7ede-a4e5-80f2c7342779 is waiting. Run: histor approve 01a14d86-16a9-7ede-a4e5-80f2c7342779 --approver <you>. Then retry the identical call."
+  },
+  "chain": {
+    "stream_id": "demo-stream.01a14d86-1678-7f86-bad8-9ae48828c4bf",
+    "sequence": 3,
+    "prev_hash": "sha256:4d79ab936604d32a0cd948cf519ae4ed81bb12e695e611ebd904763c59bcf84e"
+  },
+  "seal": {
+    "canonicalization": "JCS-RFC8785-HISTOR",
+    "hash_alg": "sha-256",
+    "content_hash": "sha256:c12052211ec00e7f5ad290fe9929989b67e433b460cddd277e5fc13a8d299b66",
+    "sig_alg": "ed25519",
+    "key_id": "ed25519:ce8afd93723fa88dc38a99f860041c9c",
+    "signature": "HkUD0Bi2WJhuNzm-JNnhxSgN5NjFQnxV2k2CnsCK0M2BPnTWLbW248oUKRNWAJcSU0w4Dud2HweTjq1RooywCw"
+  }
+}

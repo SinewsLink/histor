@@ -1,0 +1,1366 @@
+{
+  "$comment": "Histor v0.1 conformance vectors. Seeds are public test keys: NEVER use them for real signing.",
+  "keys": {
+    "k1": {
+      "seed_hex": "1111111111111111111111111111111111111111111111111111111111111111",
+      "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+      "public_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc=\n-----END PUBLIC KEY-----\n"
+    },
+    "k2": {
+      "seed_hex": "2222222222222222222222222222222222222222222222222222222222222222",
+      "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+      "public_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAoJql9HpnWYAv+VX43C0qFKXJnSO+l/hkEn/5ODRVpPA=\n-----END PUBLIC KEY-----\n"
+    }
+  },
+  "keyring": {
+    "ed25519:503d8ee46d581c649966569ae095e270": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA0EqyMnQrtKs6E2i9RhXk5tAiSrcaAWuvhSCjMsl3hzc=\n-----END PUBLIC KEY-----\n"
+  },
+  "canonicalization": [
+    {
+      "name": "key_order_and_escaping",
+      "input": {
+        "b": 1,
+        "a": "x\"y",
+        "c": [
+          true,
+          null
+        ]
+      },
+      "canonical": "{\"a\":\"x\\\"y\",\"b\":1,\"c\":[true,null]}",
+      "content_hash": "sha256:02855e777cfe201e7bb352dc8c59897c5c8a50b5af386dbd4ba74682b807bce7"
+    },
+    {
+      "name": "must_reject_float",
+      "input": {
+        "histor_version": "0.1",
+        "amount": 1.5
+      },
+      "must_reject": true
+    }
+  ],
+  "positive": {
+    "receipts": [
+      {
+        "histor_version": "0.1",
+        "receipt_id": "0192c6f0-0000-7000-8000-000000000001",
+        "kind": "session.start",
+        "issued_at": "2026-10-18T12:00:01.000Z",
+        "issuer": {
+          "type": "sdk",
+          "software": {
+            "name": "vector-gen",
+            "version": "0.1.0"
+          },
+          "host": null,
+          "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+        },
+        "session": {
+          "session_id": "sess-vectors"
+        },
+        "chain": {
+          "stream_id": "vectors",
+          "sequence": 0,
+          "prev_hash": null
+        },
+        "seal": {
+          "canonicalization": "JCS-RFC8785-HISTOR",
+          "hash_alg": "sha-256",
+          "content_hash": "sha256:d40f1c13308535b7e691041134004c3f6b5ffff90b9e623c6fd037c5c6b45506",
+          "sig_alg": "ed25519",
+          "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+          "signature": "v09SmCMo3TuZeIm7VUtsfLsjH7F8ATaSpcosWhNnQpZlz-hbO9JSe1YWhsCQc4t6-Bt-oJhbp0jqgdja_qsfCQ"
+        }
+      },
+      {
+        "histor_version": "0.1",
+        "receipt_id": "0192c6f0-0000-7000-8000-000000000002",
+        "kind": "gap",
+        "issued_at": "2026-10-18T12:00:02.000Z",
+        "issuer": {
+          "type": "sdk",
+          "software": {
+            "name": "vector-gen",
+            "version": "0.1.0"
+          },
+          "host": null,
+          "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+        },
+        "gap": {
+          "reason": "vector: declared gap",
+          "detected_at": "2026-10-18T12:00:02.000Z"
+        },
+        "chain": {
+          "stream_id": "vectors",
+          "sequence": 1,
+          "prev_hash": "sha256:d40f1c13308535b7e691041134004c3f6b5ffff90b9e623c6fd037c5c6b45506"
+        },
+        "seal": {
+          "canonicalization": "JCS-RFC8785-HISTOR",
+          "hash_alg": "sha-256",
+          "content_hash": "sha256:fb0a011e2b4c96046a687933b12758639ef3ca02ea9cdc7e40e6a4040b924574",
+          "sig_alg": "ed25519",
+          "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+          "signature": "3L4L8VLOIX6bgtm1wnz2JgbdIP4T1s8DIPZJt9fz2jt7ZOaJq4-WBrGDz8gFbHaO5fhDb4j3yOwEFoXZJE2fDg"
+        }
+      },
+      {
+        "histor_version": "0.1",
+        "receipt_id": "0192c6f0-0000-7000-8000-000000000003",
+        "kind": "key.rotation",
+        "issued_at": "2026-10-18T12:00:03.000Z",
+        "issuer": {
+          "type": "sdk",
+          "software": {
+            "name": "vector-gen",
+            "version": "0.1.0"
+          },
+          "host": null,
+          "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+        },
+        "key_rotation": {
+          "new_key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+          "new_public_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAoJql9HpnWYAv+VX43C0qFKXJnSO+l/hkEn/5ODRVpPA=\n-----END PUBLIC KEY-----\n",
+          "signed_with": "old",
+          "reason": "scheduled"
+        },
+        "chain": {
+          "stream_id": "vectors",
+          "sequence": 2,
+          "prev_hash": "sha256:fb0a011e2b4c96046a687933b12758639ef3ca02ea9cdc7e40e6a4040b924574"
+        },
+        "seal": {
+          "canonicalization": "JCS-RFC8785-HISTOR",
+          "hash_alg": "sha-256",
+          "content_hash": "sha256:b36ca56e1a9d1c1ae68c68c0d09ec327e4dc1f2b30d84b4bbf718a6bccb77dbd",
+          "sig_alg": "ed25519",
+          "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+          "signature": "_ePqDiKrEtvN8u6BmIiQDAaSyk4qwRYjP0Ct4y8rxaDVyCYHPdd3zjVkFLnUPDN0ZcdSKBmg1BF29IpPaLyvCA"
+        }
+      },
+      {
+        "histor_version": "0.1",
+        "receipt_id": "0192c6f0-0000-7000-8000-000000000004",
+        "kind": "gap",
+        "issued_at": "2026-10-18T12:00:04.000Z",
+        "issuer": {
+          "type": "sdk",
+          "software": {
+            "name": "vector-gen",
+            "version": "0.1.0"
+          },
+          "host": null,
+          "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f"
+        },
+        "gap": {
+          "reason": "vector: after rotation",
+          "detected_at": "2026-10-18T12:00:04.000Z"
+        },
+        "chain": {
+          "stream_id": "vectors",
+          "sequence": 3,
+          "prev_hash": "sha256:b36ca56e1a9d1c1ae68c68c0d09ec327e4dc1f2b30d84b4bbf718a6bccb77dbd"
+        },
+        "seal": {
+          "canonicalization": "JCS-RFC8785-HISTOR",
+          "hash_alg": "sha-256",
+          "content_hash": "sha256:9bb68cfc67054927de06536ffb9133b1b8ba6d7d477c54c6464c7ae3bee2b548",
+          "sig_alg": "ed25519",
+          "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+          "signature": "SG5UizGc6BFW_2KCRcxmSpFGuCZ_Z48UC6h381-T363QsRbNf0btkUZznGFX90nWse6nuwRGKQdGTX1EBvdPAw"
+        }
+      },
+      {
+        "histor_version": "0.1",
+        "receipt_id": "0192c6f0-0000-7000-8000-000000000005",
+        "kind": "session.end",
+        "issued_at": "2026-10-18T12:00:05.000Z",
+        "issuer": {
+          "type": "sdk",
+          "software": {
+            "name": "vector-gen",
+            "version": "0.1.0"
+          },
+          "host": null,
+          "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f"
+        },
+        "session": {
+          "session_id": "sess-vectors"
+        },
+        "chain": {
+          "stream_id": "vectors",
+          "sequence": 4,
+          "prev_hash": "sha256:9bb68cfc67054927de06536ffb9133b1b8ba6d7d477c54c6464c7ae3bee2b548",
+          "terminal": true,
+          "status": "complete"
+        },
+        "seal": {
+          "canonicalization": "JCS-RFC8785-HISTOR",
+          "hash_alg": "sha-256",
+          "content_hash": "sha256:dba67bba4d7280e84d20eb91ab09927e26764cd69717ff8c3b189e8e7c0d9247",
+          "sig_alg": "ed25519",
+          "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+          "signature": "jeNR0Nv0QDHtKweVBVAXffcxYC19fzxd326w7xwE8eTTeqHFwTvihbBM3J0TnOCI81wS-tX-5nGheQOgpP0RBg"
+        }
+      }
+    ],
+    "expect": {
+      "ok": true,
+      "end": "complete"
+    }
+  },
+  "negative": [
+    {
+      "name": "edited_body",
+      "reason": "content_hash mismatch",
+      "opts": {},
+      "receipts": [
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000001",
+          "kind": "session.start",
+          "issued_at": "2026-10-18T12:00:01.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+          },
+          "session": {
+            "session_id": "sess-vectors"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 0,
+            "prev_hash": null
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:d40f1c13308535b7e691041134004c3f6b5ffff90b9e623c6fd037c5c6b45506",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+            "signature": "v09SmCMo3TuZeIm7VUtsfLsjH7F8ATaSpcosWhNnQpZlz-hbO9JSe1YWhsCQc4t6-Bt-oJhbp0jqgdja_qsfCQ"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000002",
+          "kind": "gap",
+          "issued_at": "2026-10-18T12:00:02.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+          },
+          "gap": {
+            "reason": "edited",
+            "detected_at": "2026-10-18T12:00:02.000Z"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 1,
+            "prev_hash": "sha256:d40f1c13308535b7e691041134004c3f6b5ffff90b9e623c6fd037c5c6b45506"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:fb0a011e2b4c96046a687933b12758639ef3ca02ea9cdc7e40e6a4040b924574",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+            "signature": "3L4L8VLOIX6bgtm1wnz2JgbdIP4T1s8DIPZJt9fz2jt7ZOaJq4-WBrGDz8gFbHaO5fhDb4j3yOwEFoXZJE2fDg"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000003",
+          "kind": "key.rotation",
+          "issued_at": "2026-10-18T12:00:03.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+          },
+          "key_rotation": {
+            "new_key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+            "new_public_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAoJql9HpnWYAv+VX43C0qFKXJnSO+l/hkEn/5ODRVpPA=\n-----END PUBLIC KEY-----\n",
+            "signed_with": "old",
+            "reason": "scheduled"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 2,
+            "prev_hash": "sha256:fb0a011e2b4c96046a687933b12758639ef3ca02ea9cdc7e40e6a4040b924574"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:b36ca56e1a9d1c1ae68c68c0d09ec327e4dc1f2b30d84b4bbf718a6bccb77dbd",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+            "signature": "_ePqDiKrEtvN8u6BmIiQDAaSyk4qwRYjP0Ct4y8rxaDVyCYHPdd3zjVkFLnUPDN0ZcdSKBmg1BF29IpPaLyvCA"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000004",
+          "kind": "gap",
+          "issued_at": "2026-10-18T12:00:04.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f"
+          },
+          "gap": {
+            "reason": "vector: after rotation",
+            "detected_at": "2026-10-18T12:00:04.000Z"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 3,
+            "prev_hash": "sha256:b36ca56e1a9d1c1ae68c68c0d09ec327e4dc1f2b30d84b4bbf718a6bccb77dbd"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:9bb68cfc67054927de06536ffb9133b1b8ba6d7d477c54c6464c7ae3bee2b548",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+            "signature": "SG5UizGc6BFW_2KCRcxmSpFGuCZ_Z48UC6h381-T363QsRbNf0btkUZznGFX90nWse6nuwRGKQdGTX1EBvdPAw"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000005",
+          "kind": "session.end",
+          "issued_at": "2026-10-18T12:00:05.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f"
+          },
+          "session": {
+            "session_id": "sess-vectors"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 4,
+            "prev_hash": "sha256:9bb68cfc67054927de06536ffb9133b1b8ba6d7d477c54c6464c7ae3bee2b548",
+            "terminal": true,
+            "status": "complete"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:dba67bba4d7280e84d20eb91ab09927e26764cd69717ff8c3b189e8e7c0d9247",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+            "signature": "jeNR0Nv0QDHtKweVBVAXffcxYC19fzxd326w7xwE8eTTeqHFwTvihbBM3J0TnOCI81wS-tX-5nGheQOgpP0RBg"
+          }
+        }
+      ]
+    },
+    {
+      "name": "deleted_receipt",
+      "reason": "sequence",
+      "opts": {},
+      "receipts": [
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000001",
+          "kind": "session.start",
+          "issued_at": "2026-10-18T12:00:01.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+          },
+          "session": {
+            "session_id": "sess-vectors"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 0,
+            "prev_hash": null
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:d40f1c13308535b7e691041134004c3f6b5ffff90b9e623c6fd037c5c6b45506",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+            "signature": "v09SmCMo3TuZeIm7VUtsfLsjH7F8ATaSpcosWhNnQpZlz-hbO9JSe1YWhsCQc4t6-Bt-oJhbp0jqgdja_qsfCQ"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000003",
+          "kind": "key.rotation",
+          "issued_at": "2026-10-18T12:00:03.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+          },
+          "key_rotation": {
+            "new_key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+            "new_public_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAoJql9HpnWYAv+VX43C0qFKXJnSO+l/hkEn/5ODRVpPA=\n-----END PUBLIC KEY-----\n",
+            "signed_with": "old",
+            "reason": "scheduled"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 2,
+            "prev_hash": "sha256:fb0a011e2b4c96046a687933b12758639ef3ca02ea9cdc7e40e6a4040b924574"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:b36ca56e1a9d1c1ae68c68c0d09ec327e4dc1f2b30d84b4bbf718a6bccb77dbd",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+            "signature": "_ePqDiKrEtvN8u6BmIiQDAaSyk4qwRYjP0Ct4y8rxaDVyCYHPdd3zjVkFLnUPDN0ZcdSKBmg1BF29IpPaLyvCA"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000004",
+          "kind": "gap",
+          "issued_at": "2026-10-18T12:00:04.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f"
+          },
+          "gap": {
+            "reason": "vector: after rotation",
+            "detected_at": "2026-10-18T12:00:04.000Z"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 3,
+            "prev_hash": "sha256:b36ca56e1a9d1c1ae68c68c0d09ec327e4dc1f2b30d84b4bbf718a6bccb77dbd"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:9bb68cfc67054927de06536ffb9133b1b8ba6d7d477c54c6464c7ae3bee2b548",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+            "signature": "SG5UizGc6BFW_2KCRcxmSpFGuCZ_Z48UC6h381-T363QsRbNf0btkUZznGFX90nWse6nuwRGKQdGTX1EBvdPAw"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000005",
+          "kind": "session.end",
+          "issued_at": "2026-10-18T12:00:05.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f"
+          },
+          "session": {
+            "session_id": "sess-vectors"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 4,
+            "prev_hash": "sha256:9bb68cfc67054927de06536ffb9133b1b8ba6d7d477c54c6464c7ae3bee2b548",
+            "terminal": true,
+            "status": "complete"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:dba67bba4d7280e84d20eb91ab09927e26764cd69717ff8c3b189e8e7c0d9247",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+            "signature": "jeNR0Nv0QDHtKweVBVAXffcxYC19fzxd326w7xwE8eTTeqHFwTvihbBM3J0TnOCI81wS-tX-5nGheQOgpP0RBg"
+          }
+        }
+      ]
+    },
+    {
+      "name": "reordered",
+      "reason": "sequence",
+      "opts": {},
+      "receipts": [
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000001",
+          "kind": "session.start",
+          "issued_at": "2026-10-18T12:00:01.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+          },
+          "session": {
+            "session_id": "sess-vectors"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 0,
+            "prev_hash": null
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:d40f1c13308535b7e691041134004c3f6b5ffff90b9e623c6fd037c5c6b45506",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+            "signature": "v09SmCMo3TuZeIm7VUtsfLsjH7F8ATaSpcosWhNnQpZlz-hbO9JSe1YWhsCQc4t6-Bt-oJhbp0jqgdja_qsfCQ"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000003",
+          "kind": "key.rotation",
+          "issued_at": "2026-10-18T12:00:03.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+          },
+          "key_rotation": {
+            "new_key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+            "new_public_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAoJql9HpnWYAv+VX43C0qFKXJnSO+l/hkEn/5ODRVpPA=\n-----END PUBLIC KEY-----\n",
+            "signed_with": "old",
+            "reason": "scheduled"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 2,
+            "prev_hash": "sha256:fb0a011e2b4c96046a687933b12758639ef3ca02ea9cdc7e40e6a4040b924574"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:b36ca56e1a9d1c1ae68c68c0d09ec327e4dc1f2b30d84b4bbf718a6bccb77dbd",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+            "signature": "_ePqDiKrEtvN8u6BmIiQDAaSyk4qwRYjP0Ct4y8rxaDVyCYHPdd3zjVkFLnUPDN0ZcdSKBmg1BF29IpPaLyvCA"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000002",
+          "kind": "gap",
+          "issued_at": "2026-10-18T12:00:02.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+          },
+          "gap": {
+            "reason": "vector: declared gap",
+            "detected_at": "2026-10-18T12:00:02.000Z"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 1,
+            "prev_hash": "sha256:d40f1c13308535b7e691041134004c3f6b5ffff90b9e623c6fd037c5c6b45506"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:fb0a011e2b4c96046a687933b12758639ef3ca02ea9cdc7e40e6a4040b924574",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+            "signature": "3L4L8VLOIX6bgtm1wnz2JgbdIP4T1s8DIPZJt9fz2jt7ZOaJq4-WBrGDz8gFbHaO5fhDb4j3yOwEFoXZJE2fDg"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000004",
+          "kind": "gap",
+          "issued_at": "2026-10-18T12:00:04.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f"
+          },
+          "gap": {
+            "reason": "vector: after rotation",
+            "detected_at": "2026-10-18T12:00:04.000Z"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 3,
+            "prev_hash": "sha256:b36ca56e1a9d1c1ae68c68c0d09ec327e4dc1f2b30d84b4bbf718a6bccb77dbd"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:9bb68cfc67054927de06536ffb9133b1b8ba6d7d477c54c6464c7ae3bee2b548",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+            "signature": "SG5UizGc6BFW_2KCRcxmSpFGuCZ_Z48UC6h381-T363QsRbNf0btkUZznGFX90nWse6nuwRGKQdGTX1EBvdPAw"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000005",
+          "kind": "session.end",
+          "issued_at": "2026-10-18T12:00:05.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f"
+          },
+          "session": {
+            "session_id": "sess-vectors"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 4,
+            "prev_hash": "sha256:9bb68cfc67054927de06536ffb9133b1b8ba6d7d477c54c6464c7ae3bee2b548",
+            "terminal": true,
+            "status": "complete"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:dba67bba4d7280e84d20eb91ab09927e26764cd69717ff8c3b189e8e7c0d9247",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+            "signature": "jeNR0Nv0QDHtKweVBVAXffcxYC19fzxd326w7xwE8eTTeqHFwTvihbBM3J0TnOCI81wS-tX-5nGheQOgpP0RBg"
+          }
+        }
+      ]
+    },
+    {
+      "name": "old_key_after_rotation",
+      "reason": "expected new key",
+      "opts": {},
+      "receipts": [
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000001",
+          "kind": "session.start",
+          "issued_at": "2026-10-18T12:00:01.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+          },
+          "session": {
+            "session_id": "sess-vectors"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 0,
+            "prev_hash": null
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:d40f1c13308535b7e691041134004c3f6b5ffff90b9e623c6fd037c5c6b45506",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+            "signature": "v09SmCMo3TuZeIm7VUtsfLsjH7F8ATaSpcosWhNnQpZlz-hbO9JSe1YWhsCQc4t6-Bt-oJhbp0jqgdja_qsfCQ"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000002",
+          "kind": "gap",
+          "issued_at": "2026-10-18T12:00:02.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+          },
+          "gap": {
+            "reason": "vector: declared gap",
+            "detected_at": "2026-10-18T12:00:02.000Z"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 1,
+            "prev_hash": "sha256:d40f1c13308535b7e691041134004c3f6b5ffff90b9e623c6fd037c5c6b45506"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:fb0a011e2b4c96046a687933b12758639ef3ca02ea9cdc7e40e6a4040b924574",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+            "signature": "3L4L8VLOIX6bgtm1wnz2JgbdIP4T1s8DIPZJt9fz2jt7ZOaJq4-WBrGDz8gFbHaO5fhDb4j3yOwEFoXZJE2fDg"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000003",
+          "kind": "key.rotation",
+          "issued_at": "2026-10-18T12:00:03.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+          },
+          "key_rotation": {
+            "new_key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+            "new_public_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAoJql9HpnWYAv+VX43C0qFKXJnSO+l/hkEn/5ODRVpPA=\n-----END PUBLIC KEY-----\n",
+            "signed_with": "old",
+            "reason": "scheduled"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 2,
+            "prev_hash": "sha256:fb0a011e2b4c96046a687933b12758639ef3ca02ea9cdc7e40e6a4040b924574"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:b36ca56e1a9d1c1ae68c68c0d09ec327e4dc1f2b30d84b4bbf718a6bccb77dbd",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+            "signature": "_ePqDiKrEtvN8u6BmIiQDAaSyk4qwRYjP0Ct4y8rxaDVyCYHPdd3zjVkFLnUPDN0ZcdSKBmg1BF29IpPaLyvCA"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000004",
+          "kind": "gap",
+          "issued_at": "2026-10-18T12:00:04.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+          },
+          "gap": {
+            "reason": "vector: after rotation",
+            "detected_at": "2026-10-18T12:00:04.000Z"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 3,
+            "prev_hash": "sha256:b36ca56e1a9d1c1ae68c68c0d09ec327e4dc1f2b30d84b4bbf718a6bccb77dbd"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:92b0fe79d9ffd51715a86b1931522c829528f0947236980fa6ad47db2af2ee44",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+            "signature": "h0MjQk-1G_sFB4VaRd3P5d_jW4D8sNHJ4pXWRZkBwoRDtYO8jaXO1LLQtz4sifktWdU3QBCL_vzl8iU_5Kp8DA"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000005",
+          "kind": "session.end",
+          "issued_at": "2026-10-18T12:00:05.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f"
+          },
+          "session": {
+            "session_id": "sess-vectors"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 4,
+            "prev_hash": "sha256:9bb68cfc67054927de06536ffb9133b1b8ba6d7d477c54c6464c7ae3bee2b548",
+            "terminal": true,
+            "status": "complete"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:dba67bba4d7280e84d20eb91ab09927e26764cd69717ff8c3b189e8e7c0d9247",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+            "signature": "jeNR0Nv0QDHtKweVBVAXffcxYC19fzxd326w7xwE8eTTeqHFwTvihbBM3J0TnOCI81wS-tX-5nGheQOgpP0RBg"
+          }
+        }
+      ]
+    },
+    {
+      "name": "receipt_after_terminal",
+      "reason": "receipt after terminal",
+      "opts": {},
+      "receipts": [
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000001",
+          "kind": "session.start",
+          "issued_at": "2026-10-18T12:00:01.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+          },
+          "session": {
+            "session_id": "sess-vectors"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 0,
+            "prev_hash": null
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:d40f1c13308535b7e691041134004c3f6b5ffff90b9e623c6fd037c5c6b45506",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+            "signature": "v09SmCMo3TuZeIm7VUtsfLsjH7F8ATaSpcosWhNnQpZlz-hbO9JSe1YWhsCQc4t6-Bt-oJhbp0jqgdja_qsfCQ"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000002",
+          "kind": "gap",
+          "issued_at": "2026-10-18T12:00:02.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+          },
+          "gap": {
+            "reason": "vector: declared gap",
+            "detected_at": "2026-10-18T12:00:02.000Z"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 1,
+            "prev_hash": "sha256:d40f1c13308535b7e691041134004c3f6b5ffff90b9e623c6fd037c5c6b45506"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:fb0a011e2b4c96046a687933b12758639ef3ca02ea9cdc7e40e6a4040b924574",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+            "signature": "3L4L8VLOIX6bgtm1wnz2JgbdIP4T1s8DIPZJt9fz2jt7ZOaJq4-WBrGDz8gFbHaO5fhDb4j3yOwEFoXZJE2fDg"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000003",
+          "kind": "key.rotation",
+          "issued_at": "2026-10-18T12:00:03.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+          },
+          "key_rotation": {
+            "new_key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+            "new_public_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAoJql9HpnWYAv+VX43C0qFKXJnSO+l/hkEn/5ODRVpPA=\n-----END PUBLIC KEY-----\n",
+            "signed_with": "old",
+            "reason": "scheduled"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 2,
+            "prev_hash": "sha256:fb0a011e2b4c96046a687933b12758639ef3ca02ea9cdc7e40e6a4040b924574"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:b36ca56e1a9d1c1ae68c68c0d09ec327e4dc1f2b30d84b4bbf718a6bccb77dbd",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+            "signature": "_ePqDiKrEtvN8u6BmIiQDAaSyk4qwRYjP0Ct4y8rxaDVyCYHPdd3zjVkFLnUPDN0ZcdSKBmg1BF29IpPaLyvCA"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000004",
+          "kind": "gap",
+          "issued_at": "2026-10-18T12:00:04.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f"
+          },
+          "gap": {
+            "reason": "vector: after rotation",
+            "detected_at": "2026-10-18T12:00:04.000Z"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 3,
+            "prev_hash": "sha256:b36ca56e1a9d1c1ae68c68c0d09ec327e4dc1f2b30d84b4bbf718a6bccb77dbd"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:9bb68cfc67054927de06536ffb9133b1b8ba6d7d477c54c6464c7ae3bee2b548",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+            "signature": "SG5UizGc6BFW_2KCRcxmSpFGuCZ_Z48UC6h381-T363QsRbNf0btkUZznGFX90nWse6nuwRGKQdGTX1EBvdPAw"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000005",
+          "kind": "session.end",
+          "issued_at": "2026-10-18T12:00:05.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f"
+          },
+          "session": {
+            "session_id": "sess-vectors"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 4,
+            "prev_hash": "sha256:9bb68cfc67054927de06536ffb9133b1b8ba6d7d477c54c6464c7ae3bee2b548",
+            "terminal": true,
+            "status": "complete"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:dba67bba4d7280e84d20eb91ab09927e26764cd69717ff8c3b189e8e7c0d9247",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+            "signature": "jeNR0Nv0QDHtKweVBVAXffcxYC19fzxd326w7xwE8eTTeqHFwTvihbBM3J0TnOCI81wS-tX-5nGheQOgpP0RBg"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000006",
+          "kind": "gap",
+          "issued_at": "2026-10-18T12:00:06.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f"
+          },
+          "gap": {
+            "reason": "after end",
+            "detected_at": "2026-10-18T12:00:06.000Z"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 5,
+            "prev_hash": "sha256:dba67bba4d7280e84d20eb91ab09927e26764cd69717ff8c3b189e8e7c0d9247"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:21c5969981050defa8a929ab7bb2640a655d527c1e630b9893062fcbfe5f1032",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+            "signature": "rDozxfkNrPffz9kCprE-RhMvkOQEsNPcl_faGrdr26FqKUh93XhUkEjGrflMVgUUO1-Jpmc7e9vPDD9AVjVsCw"
+          }
+        }
+      ]
+    },
+    {
+      "name": "truncated_tail_with_witness",
+      "reason": "does not match out-of-band witness",
+      "opts": {
+        "expectedLength": 5,
+        "expectedFinalHash": "sha256:dba67bba4d7280e84d20eb91ab09927e26764cd69717ff8c3b189e8e7c0d9247"
+      },
+      "receipts": [
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000001",
+          "kind": "session.start",
+          "issued_at": "2026-10-18T12:00:01.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+          },
+          "session": {
+            "session_id": "sess-vectors"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 0,
+            "prev_hash": null
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:d40f1c13308535b7e691041134004c3f6b5ffff90b9e623c6fd037c5c6b45506",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+            "signature": "v09SmCMo3TuZeIm7VUtsfLsjH7F8ATaSpcosWhNnQpZlz-hbO9JSe1YWhsCQc4t6-Bt-oJhbp0jqgdja_qsfCQ"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000002",
+          "kind": "gap",
+          "issued_at": "2026-10-18T12:00:02.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+          },
+          "gap": {
+            "reason": "vector: declared gap",
+            "detected_at": "2026-10-18T12:00:02.000Z"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 1,
+            "prev_hash": "sha256:d40f1c13308535b7e691041134004c3f6b5ffff90b9e623c6fd037c5c6b45506"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:fb0a011e2b4c96046a687933b12758639ef3ca02ea9cdc7e40e6a4040b924574",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+            "signature": "3L4L8VLOIX6bgtm1wnz2JgbdIP4T1s8DIPZJt9fz2jt7ZOaJq4-WBrGDz8gFbHaO5fhDb4j3yOwEFoXZJE2fDg"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000003",
+          "kind": "key.rotation",
+          "issued_at": "2026-10-18T12:00:03.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+          },
+          "key_rotation": {
+            "new_key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+            "new_public_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAoJql9HpnWYAv+VX43C0qFKXJnSO+l/hkEn/5ODRVpPA=\n-----END PUBLIC KEY-----\n",
+            "signed_with": "old",
+            "reason": "scheduled"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 2,
+            "prev_hash": "sha256:fb0a011e2b4c96046a687933b12758639ef3ca02ea9cdc7e40e6a4040b924574"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:b36ca56e1a9d1c1ae68c68c0d09ec327e4dc1f2b30d84b4bbf718a6bccb77dbd",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+            "signature": "_ePqDiKrEtvN8u6BmIiQDAaSyk4qwRYjP0Ct4y8rxaDVyCYHPdd3zjVkFLnUPDN0ZcdSKBmg1BF29IpPaLyvCA"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000004",
+          "kind": "gap",
+          "issued_at": "2026-10-18T12:00:04.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f"
+          },
+          "gap": {
+            "reason": "vector: after rotation",
+            "detected_at": "2026-10-18T12:00:04.000Z"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 3,
+            "prev_hash": "sha256:b36ca56e1a9d1c1ae68c68c0d09ec327e4dc1f2b30d84b4bbf718a6bccb77dbd"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:9bb68cfc67054927de06536ffb9133b1b8ba6d7d477c54c6464c7ae3bee2b548",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+            "signature": "SG5UizGc6BFW_2KCRcxmSpFGuCZ_Z48UC6h381-T363QsRbNf0btkUZznGFX90nWse6nuwRGKQdGTX1EBvdPAw"
+          }
+        }
+      ]
+    },
+    {
+      "name": "swapped_signature",
+      "reason": "signature invalid",
+      "opts": {},
+      "receipts": [
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000001",
+          "kind": "session.start",
+          "issued_at": "2026-10-18T12:00:01.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+          },
+          "session": {
+            "session_id": "sess-vectors"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 0,
+            "prev_hash": null
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:d40f1c13308535b7e691041134004c3f6b5ffff90b9e623c6fd037c5c6b45506",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+            "signature": "v09SmCMo3TuZeIm7VUtsfLsjH7F8ATaSpcosWhNnQpZlz-hbO9JSe1YWhsCQc4t6-Bt-oJhbp0jqgdja_qsfCQ"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000002",
+          "kind": "gap",
+          "issued_at": "2026-10-18T12:00:02.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+          },
+          "gap": {
+            "reason": "vector: declared gap",
+            "detected_at": "2026-10-18T12:00:02.000Z"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 1,
+            "prev_hash": "sha256:d40f1c13308535b7e691041134004c3f6b5ffff90b9e623c6fd037c5c6b45506"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:fb0a011e2b4c96046a687933b12758639ef3ca02ea9cdc7e40e6a4040b924574",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+            "signature": "3L4L8VLOIX6bgtm1wnz2JgbdIP4T1s8DIPZJt9fz2jt7ZOaJq4-WBrGDz8gFbHaO5fhDb4j3yOwEFoXZJE2fDg"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000003",
+          "kind": "key.rotation",
+          "issued_at": "2026-10-18T12:00:03.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270"
+          },
+          "key_rotation": {
+            "new_key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+            "new_public_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAoJql9HpnWYAv+VX43C0qFKXJnSO+l/hkEn/5ODRVpPA=\n-----END PUBLIC KEY-----\n",
+            "signed_with": "old",
+            "reason": "scheduled"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 2,
+            "prev_hash": "sha256:fb0a011e2b4c96046a687933b12758639ef3ca02ea9cdc7e40e6a4040b924574"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:b36ca56e1a9d1c1ae68c68c0d09ec327e4dc1f2b30d84b4bbf718a6bccb77dbd",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:503d8ee46d581c649966569ae095e270",
+            "signature": "3L4L8VLOIX6bgtm1wnz2JgbdIP4T1s8DIPZJt9fz2jt7ZOaJq4-WBrGDz8gFbHaO5fhDb4j3yOwEFoXZJE2fDg"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000004",
+          "kind": "gap",
+          "issued_at": "2026-10-18T12:00:04.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f"
+          },
+          "gap": {
+            "reason": "vector: after rotation",
+            "detected_at": "2026-10-18T12:00:04.000Z"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 3,
+            "prev_hash": "sha256:b36ca56e1a9d1c1ae68c68c0d09ec327e4dc1f2b30d84b4bbf718a6bccb77dbd"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:9bb68cfc67054927de06536ffb9133b1b8ba6d7d477c54c6464c7ae3bee2b548",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+            "signature": "SG5UizGc6BFW_2KCRcxmSpFGuCZ_Z48UC6h381-T363QsRbNf0btkUZznGFX90nWse6nuwRGKQdGTX1EBvdPAw"
+          }
+        },
+        {
+          "histor_version": "0.1",
+          "receipt_id": "0192c6f0-0000-7000-8000-000000000005",
+          "kind": "session.end",
+          "issued_at": "2026-10-18T12:00:05.000Z",
+          "issuer": {
+            "type": "sdk",
+            "software": {
+              "name": "vector-gen",
+              "version": "0.1.0"
+            },
+            "host": null,
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f"
+          },
+          "session": {
+            "session_id": "sess-vectors"
+          },
+          "chain": {
+            "stream_id": "vectors",
+            "sequence": 4,
+            "prev_hash": "sha256:9bb68cfc67054927de06536ffb9133b1b8ba6d7d477c54c6464c7ae3bee2b548",
+            "terminal": true,
+            "status": "complete"
+          },
+          "seal": {
+            "canonicalization": "JCS-RFC8785-HISTOR",
+            "hash_alg": "sha-256",
+            "content_hash": "sha256:dba67bba4d7280e84d20eb91ab09927e26764cd69717ff8c3b189e8e7c0d9247",
+            "sig_alg": "ed25519",
+            "key_id": "ed25519:744f36cca67eb1912cb282e08e86bd2f",
+            "signature": "jeNR0Nv0QDHtKweVBVAXffcxYC19fzxd326w7xwE8eTTeqHFwTvihbBM3J0TnOCI81wS-tX-5nGheQOgpP0RBg"
+          }
+        }
+      ]
+    }
+  ]
+}

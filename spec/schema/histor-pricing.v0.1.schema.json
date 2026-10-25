@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://histor.sinewslink.com/schema/v0.1/pricing.json",
+  "title": "Histor v0.1 pricing table (versioned data)",
+  "type": "object",
+  "required": [
+    "pricing_id",
+    "provider",
+    "currency",
+    "unit",
+    "effective_date",
+    "source",
+    "models"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "pricing_id": {
+      "type": "string"
+    },
+    "provider": {
+      "type": "string"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$"
+    },
+    "unit": {
+      "const": "per_million_tokens"
+    },
+    "effective_date": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "models": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "input",
+          "output"
+        ],
+        "properties": {
+          "input": {
+            "$ref": "#/$defs/d"
+          },
+          "output": {
+            "$ref": "#/$defs/d"
+          },
+          "cache_write_5m": {
+            "$ref": "#/$defs/d"
+          },
+          "cache_write_1h": {
+            "$ref": "#/$defs/d"
+          },
+          "cache_read": {
+            "$ref": "#/$defs/d"
+          },
+          "long_context": {
+            "type": "object",
+            "required": [
+              "threshold_input_tokens",
+              "rates"
+            ],
+            "properties": {
+              "threshold_input_tokens": {
+                "type": "integer"
+              },
+              "rates": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/$defs/d"
+                }
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "modifiers": {
+      "type": "object",
+      "properties": {
+        "batch_multiplier": {
+          "$ref": "#/$defs/d"
+        }
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/d"
+      }
+    }
+  },
+  "$defs": {
+    "d": {
+      "type": "string",
+      "pattern": "^[0-9]+(\\.[0-9]+)?$"
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "histor_version": "0.1",
+  "receipt_id": "01a14d86-16d6-76bc-9fe2-21780d1b40d4",
+  "kind": "gap",
+  "issued_at": "2026-10-18T05:39:55.734Z",
+  "issuer": {
+    "type": "sdk",
+    "software": {
+      "name": "histor-core",
+      "version": "0.1.0"
+    },
+    "host": "vm",
+    "key_id": "ed25519:ce8afd93723fa88dc38a99f860041c9c"
+  },
+  "tenant": {
+    "org_id": "sinewslink",
+    "environment": "prod",
+    "deployment_id": "ops-cluster-ca",
+    "region": "ca-central-1",
+    "data_residency": "CA"
+  },
+  "gap": {
+    "reason": "ledger volume full 14:02-14:09 UTC; actions during window executed fail-open (low consequence only)",
+    "from_sequence": null,
+    "to_sequence": null,
+    "estimated_records_lost": 12,
+    "detected_at": "2026-10-18T05:39:55.734Z"
+  },
+  "chain": {
+    "stream_id": "examples-rich",
+    "sequence": 4,
+    "prev_hash": "sha256:1c0d11df66542972ac11729c77bcbd1e77c63d456766c7c1a7032e0c24adb413"
+  },
+  "seal": {
+    "canonicalization": "JCS-RFC8785-HISTOR",
+    "hash_alg": "sha-256",
+    "content_hash": "sha256:85b8c31376985d689ff288b8912d6053274d325eb051ea2755d48b74dd18e43c",
+    "sig_alg": "ed25519",
+    "key_id": "ed25519:ce8afd93723fa88dc38a99f860041c9c",
+    "signature": "8CjQKr2lRyrKnYxh_BCmE55UZEBdZjn0WV5VFFkiDXbpsHxzbzUHfmQ74FTBtio61j8WdyFqjjdICpbIXJSeAw"
+  }
+}

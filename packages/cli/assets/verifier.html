@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SL Histor · Verifier</title>
+<style>
+:root{--bg:#f7f7f8;--surface:#fff;--text:#111;--muted:#666;--line:#e3e3e6;--ok:#1f8f4e;--bad:#c62828;--warn:#b26a00;--accent:#1d4ed8;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0c0d10;--surface:#15171c;--text:#f2f2f3;--muted:#9a9ca3;--line:#2a2d34;--ok:#4ade80;--bad:#f87171;--warn:#fbbf24;--accent:#60a5fa;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif}
+main{max-width:1000px;margin:0 auto;padding:32px 20px}h1{font-size:28px;margin:0 0 4px;letter-spacing:-.02em}.sub{color:var(--muted);margin:0 0 24px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
+.drop{border:2px dashed var(--line);border-radius:12px;padding:28px;text-align:center;color:var(--muted)}
+.drop.over{border-color:var(--accent);color:var(--text)}label{display:block;font-weight:600;margin:12px 0 6px}
+input[type=text]{width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text)}
+button{background:var(--accent);color:#fff;border:0;border-radius:999px;padding:10px 18px;font-weight:600;cursor:pointer;margin-top:12px}
+.status{font-size:20px;font-weight:700}.ok{color:var(--ok)}.bad{color:var(--bad)}.warn{color:var(--warn)}
+.scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+ul{margin:8px 0 0;padding-left:20px}code{font-size:12px}
+</style>
+</head>
+<body><main>
+<h1>SL Histor verifier</h1>
+<p class="sub">Checks signatures, the hash chain, key rotations and the stream ending entirely in your browser. Nothing is uploaded.</p>
+<div class="card">
+  <div id="drop" class="drop">Drop a receipts file (.jsonl) and a keyring.json here, or <input id="files" type="file" multiple accept=".jsonl,.json"></div>
+  <label for="final">Optional out-of-band final hash (from an anchor or checkpoint)</label>
+  <input id="final" type="text" placeholder="sha256:…">
+  <button id="run">Verify</button>
+</div>
+<div id="out"></div>
+</main>
+<script type="module">
+// Browser-safe Histor verifier (WebCrypto only; no Node imports). The same file
+// runs in Node 20+ for tests, so the web verifier is proven to agree with the
+// reference verifier on every conformance vector.
+const enc = new TextEncoder();
+
+function canonicalize(v) {
+  if (v === null) return 'null';
+  if (typeof v === 'boolean') return v ? 'true' : 'false';
+  if (typeof v === 'string') return JSON.stringify(v);
+  if (typeof v === 'number') {
+    if (!Number.isSafeInteger(v)) throw new Error('non-integer or unsafe number');
+    return Object.is(v, -0) ? '0' : String(v);
+  }
+  if (Array.isArray(v)) return '[' + v.map(canonicalize).join(',') + ']';
+  if (typeof v === 'object') {
+    const ks = Object.keys(v).filter((k) => v[k] !== undefined).sort();
+    return '{' + ks.map((k) => JSON.stringify(k) + ':' + canonicalize(v[k])).join(',') + '}';
+  }
+  throw new Error('unsupported type');
+}
+
+const hex = (buf) => [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
+async function sha256(str) { return hex(await crypto.subtle.digest('SHA-256', enc.encode(str))); }
+const b64uToBytes = (s) => { const b = atob(s.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((s.length + 3) % 4)); return Uint8Array.from(b, (c) => c.charCodeAt(0)); };
+const pemToDer = (pem) => Uint8Array.from(atob(pem.replace(/-----[^-]+-----|\s/g, '')), (c) => c.charCodeAt(0));
+
+const keyCache = new Map();
+async function importKey(pem) {
+  if (!keyCache.has(pem)) keyCache.set(pem, crypto.subtle.importKey('spki', pemToDer(pem), { name: 'Ed25519' }, false, ['verify']));
+  return keyCache.get(pem);
+}
+
+async function contentHash(r) { const { seal, proof, ...body } = r; return 'sha256:' + (await sha256(canonicalize(body))); }
+
+async function verifySeal(r, keys) {
+  const errs = [];
+  if (!r.seal) return ['missing seal'];
+  if ((await contentHash(r)) !== r.seal.content_hash) errs.push('content_hash mismatch (receipt body altered)');
+  const pem = keys[r.seal.key_id];
+  if (!pem) errs.push(`unknown key_id ${r.seal.key_id}`);
+  else {
+    let ok = false;
+    try { ok = await crypto.subtle.verify({ name: 'Ed25519' }, await importKey(pem), b64uToBytes(r.seal.signature), enc.encode('HISTOR-v0.1/receipt\n' + r.seal.content_hash)); } catch { ok = false; }
+    if (!ok) errs.push('signature invalid');
+  }
+  return errs;
+}
+
+async function verifyStream(receipts, keyring, opts = {}) {
+  const problems = []; const warnings = [];
+  let keys = { ...keyring }; let prev = null; let active = receipts[0]?.seal?.key_id ?? null; let terminal = false;
+  for (let i = 0; i < receipts.length; i++) {
+    const r = receipts[i]; const where = `#${i} (${r.receipt_id ?? 'no id'})`; const c = r.chain || {};
+    for (const e of await verifySeal(r, keys)) problems.push(`${where}: ${e}`);
+    if (terminal) problems.push(`${where}: receipt after terminal (stream was declared finished)`);
+    if (i > 0) {
+      if (c.stream_id !== prev.chain.stream_id) problems.push(`${where}: stream_id changed`);
+      if (c.sequence !== prev.chain.sequence + 1) problems.push(`${where}: sequence ${c.sequence} follows ${prev.chain.sequence} (missing or reordered receipts)`);
+      if (c.prev_hash !== prev.seal.content_hash) problems.push(`${where}: prev_hash does not match previous receipt (chain broken)`);
+      const rot = prev.kind === 'key.rotation' ? prev.key_rotation?.new_key_id : null;
+      if (rot) { if (r.seal?.key_id !== rot) problems.push(`${where}: expected new key ${rot} after key.rotation, got ${r.seal?.key_id}`); active = rot; }
+      else if (r.seal?.key_id !== active) problems.push(`${where}: signing key changed to ${r.seal?.key_id} without a key.rotation receipt`);
+    } else if (c.sequence !== 0) warnings.push(`${where}: stream does not start at sequence 0`);
+    if (r.kind === 'key.rotation' && r.key_rotation?.new_public_pem && !keys[r.key_rotation.new_key_id]) keys = { ...keys, [r.key_rotation.new_key_id]: r.key_rotation.new_public_pem };
+    if (c.status && !c.terminal) problems.push(`${where}: chain.status without chain.terminal`);
+    if (c.terminal) terminal = true;
+    if (r.kind === 'gap') warnings.push(`${where}: issuer declared a gap: ${r.gap?.reason ?? ''}`);
+    prev = r;
+  }
+  if (opts.expectedLength != null && receipts.length !== opts.expectedLength) problems.push(`length ${receipts.length} does not match out-of-band witness ${opts.expectedLength} (truncated or extended)`);
+  if (opts.expectedFinalHash != null && prev?.seal?.content_hash !== opts.expectedFinalHash) problems.push('final content_hash does not match out-of-band witness (tail truncated or rewritten)');
+  const last = receipts[receipts.length - 1];
+  const end = !last ? 'empty' : last.chain?.terminal ? (last.chain.status || 'complete') : 'open';
+  return { ok: problems.length === 0, count: receipts.length, end, problems, warnings };
+}
+
+function parseKeyring(json) { const ring = typeof json === 'string' ? JSON.parse(json) : json; return Object.fromEntries((ring.keys || []).filter((k) => k.status !== 'compromised').map((k) => [k.key_id, k.public_pem])); }
+function parseJsonl(text) { return text.split('\n').filter((l) => l.trim()).map((l) => JSON.parse(l)); }
+
+const state = { receipts: null, keyring: null };
+const $ = (id) => document.getElementById(id);
+async function take(files) {
+  for (const f of files) {
+    const t = await f.text();
+    if (f.name.endsWith('.jsonl')) state.receipts = parseJsonl(t);
+    else { const j = JSON.parse(t); if (j.keys) state.keyring = parseKeyring(j); else if (Array.isArray(j)) state.receipts = j; }
+  }
+  $('drop').textContent = `${state.receipts ? state.receipts.length + ' receipts' : 'no receipts'} · ${state.keyring ? Object.keys(state.keyring).length + ' key(s)' : 'no keyring'}`;
+}
+$('files').addEventListener('change', (e) => take(e.target.files));
+$('drop').addEventListener('dragover', (e) => { e.preventDefault(); $('drop').classList.add('over'); });
+$('drop').addEventListener('drop', (e) => { e.preventDefault(); $('drop').classList.remove('over'); take(e.dataTransfer.files); });
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+async function run() {
+  if (!state.receipts || !state.keyring) { $('out').innerHTML = '<div class="card bad">Load both a receipts file and a keyring.</div>'; return; }
+  const fh = $('final').value.trim();
+  const r = await verifyStream(state.receipts, state.keyring, fh ? { expectedFinalHash: fh } : {});
+  const rows = state.receipts.map((x) => `<tr><td>${x.chain?.sequence}</td><td>${esc(x.issued_at)}</td><td>${esc(x.kind)}</td><td>${esc(x.action?.tool ? x.action.tool.server_name + '/' + x.action.tool.tool_name : '')}</td><td>${esc(x.authorization?.decision ?? '')}</td><td>${esc(x.approval?.status && x.approval.status !== 'not_required' ? x.approval.status : '')}</td><td>${esc(x.outcome?.status ?? '')}</td><td>${esc(x.principal?.subject_id ?? '')}</td></tr>`).join('');
+  $('out').innerHTML = `<div class="card"><div class="status ${r.ok ? 'ok' : 'bad'}">${r.ok ? 'Valid' : 'Not valid'}: ${r.count} receipts, ending: ${esc(r.end)}</div>
+  ${r.problems.length ? '<ul class="bad">' + r.problems.map((p) => '<li>' + esc(p) + '</li>').join('') + '</ul>' : ''}
+  ${r.warnings.length ? '<ul class="warn">' + r.warnings.map((p) => '<li>' + esc(p) + '</li>').join('') + '</ul>' : ''}</div>
+  <div class="card scroll"><table><thead><tr><th>#</th><th>Issued</th><th>Kind</th><th>Tool</th><th>Decision</th><th>Approval</th><th>Outcome</th><th>Principal</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+$('run').addEventListener('click', run);
+if (location.protocol.startsWith('http')) {
+  fetch('api/bundle').then((r) => r.ok ? r.json() : null).then((b) => { if (b) { state.receipts = b.receipts; state.keyring = parseKeyring(b.keyring); $('drop').textContent = `Loaded from local ledger: ${b.stream} (${b.receipts.length} receipts)`; run(); } }).catch(() => {});
+}
+</script>
+</body></html>

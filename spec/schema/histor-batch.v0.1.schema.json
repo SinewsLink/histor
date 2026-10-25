@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://histor.sinewslink.com/schema/v0.1/batch.json",
+  "title": "Histor v0.1 Merkle batch manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "histor_version",
+    "batch_id",
+    "created_at",
+    "stream_id",
+    "first_sequence",
+    "last_sequence",
+    "tree_size",
+    "tree_alg",
+    "root",
+    "last_content_hash",
+    "seal",
+    "anchors"
+  ],
+  "properties": {
+    "histor_version": {
+      "const": "0.1"
+    },
+    "batch_id": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "stream_id": {
+      "type": "string"
+    },
+    "first_sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "last_sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tree_size": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "tree_alg": {
+      "const": "rfc9162-sha256"
+    },
+    "root": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "last_content_hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "seal": {
+      "type": "object",
+      "required": [
+        "content_hash",
+        "sig_alg",
+        "key_id",
+        "signature"
+      ],
+      "properties": {
+        "content_hash": {
+          "type": "string"
+        },
+        "sig_alg": {
+          "const": "ed25519"
+        },
+        "key_id": {
+          "type": "string"
+        },
+        "signature": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "anchors": {
+      "type": "array",
+      "items": {
+        "$ref": "https://histor.sinewslink.com/schema/v0.1/receipt.json#/$defs/anchor"
+      }
+    }
+  }
+}

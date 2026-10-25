@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://histor.sinewslink.com/schema/v0.1/approval-decision.json",
+  "title": "Histor v0.1 approval decision record (approval service output, bound to a payload commitment)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "approval_id",
+    "request_id",
+    "payload_hash",
+    "decision",
+    "approver",
+    "method",
+    "decided_at",
+    "expires_at",
+    "single_use"
+  ],
+  "properties": {
+    "approval_id": {
+      "type": "string"
+    },
+    "request_id": {
+      "type": "string"
+    },
+    "payload_hash": {
+      "type": "string",
+      "pattern": "^hmac-sha256:[0-9a-f]{64}$"
+    },
+    "decision": {
+      "enum": [
+        "approved",
+        "denied"
+      ]
+    },
+    "approver": {
+      "type": "object",
+      "required": [
+        "subject_id"
+      ],
+      "properties": {
+        "subject_id": {
+          "type": "string"
+        },
+        "idp": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "host": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "method": {
+      "enum": [
+        "cli",
+        "slack",
+        "teams",
+        "mobile",
+        "email",
+        "ticket",
+        "web",
+        "api"
+      ]
+    },
+    "reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "decided_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "decision_latency_ms": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "single_use": {
+      "type": "boolean"
+    },
+    "signature": {
+      "type": [
+        "object",
+        "null"
+      ]
+    }
+  }
+}

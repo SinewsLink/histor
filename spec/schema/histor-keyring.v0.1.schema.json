@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://histor.sinewslink.com/schema/v0.1/keyring.json",
+  "title": "Histor v0.1 issuer keyring (published public keys with validity windows)",
+  "type": "object",
+  "required": [
+    "histor_version",
+    "keys"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "histor_version": {
+      "const": "0.1"
+    },
+    "issuer_id": {
+      "type": "string"
+    },
+    "keys": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "key_id",
+          "alg",
+          "public_pem",
+          "not_before",
+          "status"
+        ],
+        "properties": {
+          "key_id": {
+            "type": "string",
+            "pattern": "^ed25519:[0-9a-f]{32}$"
+          },
+          "alg": {
+            "const": "ed25519"
+          },
+          "public_pem": {
+            "type": "string"
+          },
+          "not_before": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "not_after": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "enum": [
+              "active",
+              "retired",
+              "compromised"
+            ]
+          },
+          "compromised_since": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "note": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

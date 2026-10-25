@@ -1,0 +1,16 @@
+{
+  "pricing_id": "anthropic-list-fixture-2025",
+  "provider": "anthropic",
+  "currency": "USD",
+  "unit": "per_million_tokens",
+  "effective_date": "2025-05-22",
+  "source": "Anthropic public list prices for the Claude Sonnet 4 / Opus 4 tier at launch. FIXTURE for tests and demos: pricing is versioned DATA, not code — load the current price page (or your contract rates) into a new file before production use.",
+  "models": {
+    "claude-sonnet-4": {
+      "input": "3.00", "output": "15.00", "cache_write_5m": "3.75", "cache_write_1h": "6.00", "cache_read": "0.30",
+      "long_context": { "threshold_input_tokens": 200000, "rates": { "input": "6.00", "output": "22.50", "cache_write_5m": "7.50", "cache_write_1h": "12.00", "cache_read": "0.60" } }
+    },
+    "claude-opus-4": { "input": "15.00", "output": "75.00", "cache_write_5m": "18.75", "cache_write_1h": "30.00", "cache_read": "1.50" }
+  },
+  "modifiers": { "batch_multiplier": "0.5" }
+}

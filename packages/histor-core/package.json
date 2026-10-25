@@ -1,0 +1,26 @@
+{
+  "name": "@sinewslink/histor-core",
+  "version": "0.2.0",
+  "description": "Histor receipts v0.1 core: canonicalization, hashing, signing, hash chains, Merkle batches, commitments, cost engine, verification. Zero dependencies.",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SinewsLink/histor.git",
+    "directory": "packages/histor-core"
+  },
+  "homepage": "https://github.com/SinewsLink/histor#readme",
+  "bugs": {
+    "url": "https://github.com/SinewsLink/histor/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

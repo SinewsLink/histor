@@ -1,0 +1,80 @@
+{
+  "policy_id": "sinewslink-default",
+  "version": "2026-10-10.1",
+  "description": "Reference policy: read-only is low consequence; destructive needs one bound human approval; money movement is critical; shell exfil patterns are denied.",
+  "default": {
+    "decision": "allow",
+    "consequence": "low",
+    "reversibility": "unknown"
+  },
+  "rules": [
+    {
+      "id": "deny-exfil-shell",
+      "match": {
+        "server": "claude-code",
+        "tool": "Bash",
+        "args_regex": "(\\|\\s*(curl|wget|nc)\\b)|((curl|wget)\\b[^\\n]*(\\|\\s*(sh|bash)\\b|-d\\s*@|--data(-binary)?\\s*@|-T\\s|--upload-file))|\\bscp\\s|\\bnc\\s+-e"
+      },
+      "decision": "deny",
+      "reason": "network exfiltration pattern in shell command"
+    },
+    {
+      "id": "money-movement",
+      "match": {
+        "tool": "*transfer*"
+      },
+      "approval": "required",
+      "consequence": "critical",
+      "reversibility": "compensable"
+    },
+    {
+      "id": "destructive",
+      "match": {
+        "tool": "*delete*"
+      },
+      "approval": "required",
+      "consequence": "high",
+      "reversibility": "irreversible"
+    },
+    {
+      "id": "prod-deploy",
+      "match": {
+        "tool": "*deploy*"
+      },
+      "approval": "required",
+      "consequence": "high",
+      "reversibility": "compensable"
+    },
+    {
+      "id": "file-writes",
+      "match": {
+        "server": "claude-code",
+        "tool": "Write"
+      },
+      "consequence": "medium",
+      "reversibility": "reversible"
+    },
+    {
+      "id": "reads",
+      "match": {
+        "tool": "*list*"
+      },
+      "consequence": "none",
+      "reversibility": "reversible"
+    },
+    {
+      "id": "reads-get",
+      "match": {
+        "tool": "get_*"
+      },
+      "consequence": "low",
+      "reversibility": "reversible"
+    }
+  ],
+  "approval": {
+    "ttl_seconds": 3600,
+    "separation_of_duties": true,
+    "single_use": true
+  },
+  "fail_mode": "closed_for_high"
+}

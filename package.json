@@ -1,0 +1,34 @@
+{
+  "name": "histor",
+  "private": true,
+  "version": "0.2.0",
+  "description": "SL Histor by SinewsLink — independent, verifiable evidence of what AI agents did, who approved it, and what it truly cost. Reference implementation of the open Histor receipt spec.",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "demo": "node examples/demo.js",
+    "build": "node scripts/build-web-verifier.js",
+    "vectors": "node scripts/make-vectors.js",
+    "examples": "node scripts/make-examples.js",
+    "bench": "node test/bench.js"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SinewsLink/histor.git"
+  },
+  "homepage": "https://github.com/SinewsLink/histor#readme",
+  "bugs": {
+    "url": "https://github.com/SinewsLink/histor/issues"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "ledger_dir": "./ledger",
+  "keys_dir": "./keys",
+  "approvals_dir": "./approvals",
+  "policy": "../examples/policy.example.json",
+  "pricing": "../pricing/anthropic.fixture.json",
+  "tenant": { "org_id": "sinewslink", "environment": "dev", "deployment_id": "founder-laptop", "data_residency": "CA" },
+  "principal": { "subject_id": "founder@sinewslink.com", "idp": "local", "authenticated": false },
+  "agent": { "agent_id": "sl-ops-agent", "name": "SinewsLink Ops Agent", "version": "0.1.0", "owner": { "subject_id": "founder@sinewslink.com", "team": "engineering" } },
+  "server": { "name": "demo-records" },
+  "capture": { "input": "commitment", "output": "commitment" }
+}

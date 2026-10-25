@@ -1,0 +1,28 @@
+{
+  "histor_version": "0.1",
+  "batch_id": "01a14d86-16d8-7aa0-8b88-fd4aa69b946a",
+  "created_at": "2026-10-18T05:39:55.736Z",
+  "stream_id": "examples-rich",
+  "first_sequence": 0,
+  "last_sequence": 4,
+  "tree_size": 5,
+  "tree_alg": "rfc9162-sha256",
+  "root": "sha256:efd6adf5efeada4ee8db63876a0dc0af5388fc4e72055d0ee43a443cce25a91d",
+  "last_content_hash": "sha256:85b8c31376985d689ff288b8912d6053274d325eb051ea2755d48b74dd18e43c",
+  "seal": {
+    "content_hash": "sha256:087f10991dcf1a437b35971add7d0b2836c5efe11a3d5016c1a9496c7a109810",
+    "sig_alg": "ed25519",
+    "key_id": "ed25519:ce8afd93723fa88dc38a99f860041c9c",
+    "signature": "9ELk8rejOksVKStKxlRa4hKba3rTG7tLo_bsgd1XljADJt-3hWfy3GmuCSAoTtosSbHdJ_aPUwMB2ll1b8A1Cg"
+  },
+  "anchors": [
+    {
+      "type": "opentimestamps",
+      "ref": "ots:pending (run `ots stamp` on a file containing the root)",
+      "root": "sha256:efd6adf5efeada4ee8db63876a0dc0af5388fc4e72055d0ee43a443cce25a91d",
+      "anchored_at": "2026-10-18T05:39:55.737Z",
+      "confirmed_at": null,
+      "verifier_hint": "ots verify"
+    }
+  ]
+}

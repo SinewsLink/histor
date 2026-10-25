@@ -1,0 +1,119 @@
+{
+  "histor_version": "0.1",
+  "receipt_id": "01a14d86-16d2-71ee-9520-5b4d770bb58d",
+  "kind": "delegation",
+  "issued_at": "2026-10-18T05:39:55.730Z",
+  "issuer": {
+    "type": "sdk",
+    "software": {
+      "name": "histor-core",
+      "version": "0.1.0"
+    },
+    "host": "vm",
+    "key_id": "ed25519:ce8afd93723fa88dc38a99f860041c9c"
+  },
+  "tenant": {
+    "org_id": "sinewslink",
+    "environment": "prod",
+    "deployment_id": "ops-cluster-ca",
+    "region": "ca-central-1",
+    "data_residency": "CA"
+  },
+  "principal": {
+    "subject_id": "founder@sinewslink.com",
+    "idp": "oidc:login.sinewslink.com",
+    "role": "engineering-lead",
+    "authenticated": true,
+    "auth": {
+      "method": "oidc",
+      "assurance_level": "AAL2",
+      "authenticated_at": "2026-10-18T05:39:55.728Z"
+    }
+  },
+  "agent": {
+    "agent_id": "sl-ops-agent",
+    "name": "SinewsLink Ops Agent",
+    "version": "0.1.0",
+    "framework": "claude-agent-sdk",
+    "owner": {
+      "subject_id": "founder@sinewslink.com",
+      "team": "engineering"
+    },
+    "model": {
+      "provider": "anthropic",
+      "model_id": "claude-sonnet-4",
+      "model_version": null,
+      "region": "ca-central-1"
+    },
+    "system_prompt_commitment": {
+      "alg": "hmac-sha256",
+      "key_id": "ck:ae7c0b07e548404a",
+      "value": "hmac-sha256:abcfcd5991cc121693c9aeffbad3692cf673a89d513b4b20c5259b662fa05b0a"
+    },
+    "config_hash": "sha256:65685070da9ea5e7fea4e304e03bd190a28d04762326ac35ac91343090cc721a"
+  },
+  "session": {
+    "session_id": "sess-2026-10-10-001",
+    "protocol": "agent-sdk",
+    "conversation_id": "conv-77",
+    "run_id": "run-12",
+    "step_index": 4
+  },
+  "trace": {
+    "trace_id": "4bf92f3577b34da6a3ce929d0e0e4736",
+    "span_id": "00f067aa0ba902b7",
+    "parent_span_id": "a3ce929d0e0e4736",
+    "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+  },
+  "delegation": [
+    {
+      "from": {
+        "type": "human",
+        "id": "founder@sinewslink.com"
+      },
+      "to": {
+        "type": "agent",
+        "id": "sl-ops-agent"
+      },
+      "scope": [
+        "github:repo:read",
+        "github:pr:write",
+        "aws:ec2:describe"
+      ],
+      "granted_at": "2026-10-18T05:39:55.730Z",
+      "expires_at": "2026-10-18T13:39:55.730Z",
+      "grant_ref": "okta-grant-5521",
+      "depth": 0
+    },
+    {
+      "from": {
+        "type": "agent",
+        "id": "sl-ops-agent"
+      },
+      "to": {
+        "type": "agent",
+        "id": "sl-ops-agent/subagent-log-reader"
+      },
+      "scope": [
+        "aws:logs:read"
+      ],
+      "granted_at": "2026-10-18T05:39:55.730Z",
+      "expires_at": "2026-10-18T06:39:55.730Z",
+      "grant_ref": null,
+      "depth": 1
+    }
+  ],
+  "chain": {
+    "stream_id": "examples-rich",
+    "sequence": 1,
+    "prev_hash": "sha256:ebbe87966966f5e79adbe05830a185b8789985ea2520759e3ffad3faa7f835be"
+  },
+  "seal": {
+    "canonicalization": "JCS-RFC8785-HISTOR",
+    "hash_alg": "sha-256",
+    "content_hash": "sha256:60755addc41046a181270aae7ba7845ba32035296299300fa5f4ebfbdd581c67",
+    "sig_alg": "ed25519",
+    "key_id": "ed25519:ce8afd93723fa88dc38a99f860041c9c",
+    "signature": "R5_MLoi_JELnm5UoEnekdf7SqiXJmRkc4YRPvpb2RpIaooCymPtqTfayDgJ7BDq8J46zritTU09Guo6J4AtfBw"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "histor_version": "0.1",
+  "receipt_id": "01a14d86-16a0-75a2-8ce8-ea8fd01da7b9",
+  "kind": "agent.change",
+  "issued_at": "2026-10-18T05:39:55.680Z",
+  "issuer": {
+    "type": "mcp-proxy",
+    "software": {
+      "name": "histor-mcp-proxy",
+      "version": "0.1.0"
+    },
+    "host": "vm",
+    "key_id": "ed25519:ce8afd93723fa88dc38a99f860041c9c"
+  },
+  "tenant": {
+    "org_id": "sinewslink",
+    "environment": "dev",
+    "deployment_id": "founder-laptop",
+    "data_residency": "CA"
+  },
+  "principal": {
+    "subject_id": "agent-operator@sinewslink.com",
+    "idp": "env",
+    "authenticated": false
+  },
+  "agent": {
+    "agent_id": "sl-ops-agent",
+    "name": "SinewsLink Ops Agent",
+    "version": "0.1.0",
+    "owner": {
+      "subject_id": "founder@sinewslink.com",
+      "team": "engineering"
+    },
+    "client": {
+      "name": "demo-agent",
+      "version": "0.1"
+    }
+  },
+  "session": {
+    "session_id": "01a14d86-1678-7f86-bad8-9ae48828c4bf",
+    "protocol": "mcp",
+    "protocol_version": "2025-06-18"
+  },
+  "change": {
+    "type": "tool_surface_first_seen",
+    "server_name": "demo-records",
+    "previous_surface_hash": null,
+    "surface_hash": "sha256:d4df7cb27e6724ba0a5e91645e0ab377bc7b9958aca35e189b4402cba5e686b0",
+    "diff": {
+      "added": [
+        "list_records",
+        "get_record",
+        "delete_record",
+        "transfer_funds"
+      ],
+      "removed": [],
+      "changed": []
+    }
+  },
+  "chain": {
+    "stream_id": "demo-stream.01a14d86-1678-7f86-bad8-9ae48828c4bf",
+    "sequence": 1,
+    "prev_hash": "sha256:a228f905ae5d77b1fa5486bcee4976178d3546a259afd8cad3d4f58b2f78f27f"
+  },
+  "seal": {
+    "canonicalization": "JCS-RFC8785-HISTOR",
+    "hash_alg": "sha-256",
+    "content_hash": "sha256:57fc177f2efd68aef067cc1fdcc21c63e5acc4fac3c574d435dea8619ce53b44",
+    "sig_alg": "ed25519",
+    "key_id": "ed25519:ce8afd93723fa88dc38a99f860041c9c",
+    "signature": "fSlOxj_np6ztfgDNxUCv9Lz3WmvrTWLmdXDDOemoV465B-VU7UFKmueDmIVMioHdzNv5_GhkXikA_KO_dGesBA"
+  }
+}

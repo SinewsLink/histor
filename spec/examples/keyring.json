@@ -1,0 +1,13 @@
+{
+  "histor_version": "0.1",
+  "keys": [
+    {
+      "key_id": "ed25519:ce8afd93723fa88dc38a99f860041c9c",
+      "alg": "ed25519",
+      "public_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAa118Nd6XxqGqYeJCa5AQ/1f8A7gXjM9QOGOdwcIR5lk=\n-----END PUBLIC KEY-----\n",
+      "not_before": "2026-10-18T05:39:55.584Z",
+      "not_after": null,
+      "status": "active"
+    }
+  ]
+}

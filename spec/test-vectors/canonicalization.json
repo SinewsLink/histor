@@ -1,0 +1,47 @@
+{
+  "note": "Cross-language vectors: every Histor implementation MUST produce identical canonical bytes and hashes. Add cases before porting to a new language.",
+  "cases": [
+    {
+      "name": "key-order",
+      "input": {
+        "b": 1,
+        "a": 2
+      },
+      "canonical": "{\"a\":2,\"b\":1}",
+      "content_hash": "sha256:d3626ac30a87e6f7a6428233b3c68299976865fa5508e4267c5415c76af7a772"
+    },
+    {
+      "name": "unicode-keys",
+      "input": {
+        "€": 1,
+        "\r": 2,
+        "a": 3
+      },
+      "canonical": "{\"\\r\":2,\"a\":3,\"€\":1}",
+      "content_hash": "sha256:2a948bfa619b194f8fdb21908597c1db071d05bef2cbdf0bfb3c0c37baea6a73"
+    },
+    {
+      "name": "nested",
+      "input": {
+        "z": [
+          {
+            "y": true,
+            "x": null
+          }
+        ],
+        "a": "line\nbreak \"q\""
+      },
+      "canonical": "{\"a\":\"line\\nbreak \\\"q\\\"\",\"z\":[{\"x\":null,\"y\":true}]}",
+      "content_hash": "sha256:408615d8acc23df3546cc91139302575a66cd9e14d6749f3a040b22b57adf851"
+    },
+    {
+      "name": "negative-zero-int",
+      "input": {
+        "n": 0,
+        "m": -42
+      },
+      "canonical": "{\"m\":-42,\"n\":0}",
+      "content_hash": "sha256:5b3afa0b85fe3eb94c0ce0744e6a4f9327080935c54b0faa2235879a3a5b700a"
+    }
+  ]
+}

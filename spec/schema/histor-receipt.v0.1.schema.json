@@ -1,0 +1,2624 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://histor.sinewslink.com/schema/v0.1/receipt.json",
+  "title": "Histor receipt v0.1",
+  "description": "A signed, hash-chained record of one agent event: who was accountable, which agent acted, under what authority and approval, what it touched, what it cost, and what happened. Signed body = receipt minus `seal` and `proof`.",
+  "type": "object",
+  "required": [
+    "histor_version",
+    "receipt_id",
+    "kind",
+    "issued_at",
+    "issuer",
+    "chain",
+    "seal"
+  ],
+  "properties": {
+    "histor_version": {
+      "const": "0.1"
+    },
+    "receipt_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "description": "UUIDv7"
+    },
+    "kind": {
+      "enum": [
+        "session.start",
+        "session.end",
+        "action",
+        "model.call",
+        "approval",
+        "denial",
+        "credential.use",
+        "delegation",
+        "policy.change",
+        "agent.change",
+        "cost.reconciliation",
+        "anchor",
+        "gap",
+        "key.rotation"
+      ]
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "issuer": {
+      "$ref": "#/$defs/issuer"
+    },
+    "tenant": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/tenant"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "principal": {
+      "$ref": "#/$defs/subject"
+    },
+    "agent": {
+      "$ref": "#/$defs/agent"
+    },
+    "session": {
+      "$ref": "#/$defs/session"
+    },
+    "trace": {
+      "$ref": "#/$defs/trace"
+    },
+    "delegation": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/delegationHop"
+      }
+    },
+    "action": {
+      "$ref": "#/$defs/action"
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/resource"
+      }
+    },
+    "credentials": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/credential"
+      }
+    },
+    "authorization": {
+      "$ref": "#/$defs/authorization"
+    },
+    "approval": {
+      "$ref": "#/$defs/approval"
+    },
+    "cost": {
+      "$ref": "#/$defs/cost"
+    },
+    "outcome": {
+      "$ref": "#/$defs/outcome"
+    },
+    "risk": {
+      "$ref": "#/$defs/risk"
+    },
+    "compliance": {
+      "$ref": "#/$defs/compliance"
+    },
+    "privacy": {
+      "$ref": "#/$defs/privacy"
+    },
+    "links": {
+      "$ref": "#/$defs/links"
+    },
+    "server": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "capabilities_hash": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/hash"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "exit": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "change": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": true
+    },
+    "gap": {
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": "string"
+        },
+        "from_sequence": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "to_sequence": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "estimated_records_lost": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "detected_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "reason",
+        "detected_at"
+      ],
+      "additionalProperties": false
+    },
+    "anchor": {
+      "type": "object",
+      "properties": {
+        "batch_id": {
+          "type": "string"
+        },
+        "root": {
+          "$ref": "#/$defs/hash"
+        },
+        "anchors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/anchor"
+          }
+        }
+      },
+      "required": [
+        "batch_id",
+        "root",
+        "anchors"
+      ],
+      "additionalProperties": false
+    },
+    "chain": {
+      "$ref": "#/$defs/chain"
+    },
+    "seal": {
+      "$ref": "#/$defs/seal"
+    },
+    "proof": {
+      "$ref": "#/$defs/proof"
+    },
+    "extensions": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^x-[a-z0-9]+(-[a-z0-9]+)*$"
+      },
+      "description": "Vendor extensions, namespaced x-<vendor>. Covered by the signature."
+    },
+    "key_rotation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "new_key_id",
+        "new_public_pem",
+        "signed_with"
+      ],
+      "properties": {
+        "new_key_id": {
+          "type": "string",
+          "pattern": "^ed25519:[0-9a-f]{32}$"
+        },
+        "new_public_pem": {
+          "type": "string"
+        },
+        "signed_with": {
+          "const": "old"
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "action"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "principal",
+          "agent",
+          "session",
+          "action",
+          "authorization",
+          "approval",
+          "outcome"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "denial"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "principal",
+          "agent",
+          "session",
+          "action",
+          "authorization",
+          "approval",
+          "outcome"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "model.call"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "principal",
+          "agent",
+          "session",
+          "cost"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "approval"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "principal",
+          "approval"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "credential.use"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "principal",
+          "agent",
+          "credentials"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "delegation"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "principal",
+          "delegation"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "agent.change"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "agent",
+          "change"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "policy.change"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "change"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "cost.reconciliation"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "cost"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "gap"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "gap"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "anchor"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "anchor"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "session.start"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "session"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "session.end"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "session"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "approval": {
+            "properties": {
+              "status": {
+                "const": "approved"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          }
+        },
+        "required": [
+          "approval"
+        ]
+      },
+      "then": {
+        "properties": {
+          "approval": {
+            "required": [
+              "approval_id",
+              "approvers",
+              "quorum"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "key.rotation"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "key_rotation"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "decimal": {
+      "type": "string",
+      "pattern": "^-?[0-9]+(\\.[0-9]+)?$",
+      "description": "Money and rates are decimal strings; non-integer JSON numbers are forbidden in Histor."
+    },
+    "commitment": {
+      "type": "object",
+      "properties": {
+        "alg": {
+          "const": "hmac-sha256"
+        },
+        "key_id": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^hmac-sha256:[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "alg",
+        "key_id",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "commitmentString": {
+      "type": "string",
+      "pattern": "^hmac-sha256:[0-9a-f]{64}$"
+    },
+    "software": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    "subject": {
+      "type": "object",
+      "properties": {
+        "subject_id": {
+          "type": "string",
+          "description": "Stable identifier of the accountable human (IdP subject, employee id or email). Never a shared/service account for principal or approver."
+        },
+        "idp": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "display_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "email_commitment": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/commitment"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "role": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "team": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "authenticated": {
+          "type": "boolean"
+        },
+        "auth": {
+          "type": "object",
+          "properties": {
+            "method": {
+              "enum": [
+                "oidc",
+                "saml",
+                "mtls",
+                "passkey",
+                "password",
+                "api_key",
+                "env",
+                "os-user",
+                "none"
+              ]
+            },
+            "assurance_level": {
+              "enum": [
+                "AAL1",
+                "AAL2",
+                "AAL3",
+                null
+              ]
+            },
+            "authenticated_at": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "session_ref_commitment": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/commitment"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "method"
+          ],
+          "additionalProperties": false
+        },
+        "host": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "subject_id"
+      ],
+      "additionalProperties": false
+    },
+    "owner": {
+      "type": "object",
+      "properties": {
+        "subject_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "team": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "email_commitment": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/commitment"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "issuer": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "mcp-proxy",
+            "claude-code-hook",
+            "gateway",
+            "sdk",
+            "platform",
+            "observability-exporter",
+            "approval-service",
+            "reconciler",
+            "other"
+          ]
+        },
+        "id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "software": {
+          "$ref": "#/$defs/software"
+        },
+        "host": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "key_id": {
+          "type": "string",
+          "pattern": "^ed25519:[0-9a-f]{32}$"
+        }
+      },
+      "required": [
+        "type",
+        "software",
+        "key_id"
+      ],
+      "additionalProperties": false
+    },
+    "tenant": {
+      "type": "object",
+      "properties": {
+        "org_id": {
+          "type": "string"
+        },
+        "environment": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "deployment_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "region": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "data_residency": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "ISO 3166-1 alpha-2 or a named sovereign zone"
+        }
+      },
+      "required": [
+        "org_id"
+      ],
+      "additionalProperties": false
+    },
+    "agent": {
+      "type": "object",
+      "properties": {
+        "agent_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "build_hash": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/hash"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "framework": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "owner": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/owner"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "client": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "name": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "version": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": true
+        },
+        "model": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "provider": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "model_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "model_version": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "region": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "system_prompt_commitment": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/commitment"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "config_hash": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/hash"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "runtime": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "host": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "container_image_digest": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "sandbox": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "parent_agent_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "agent_id"
+      ],
+      "additionalProperties": false
+    },
+    "session": {
+      "type": "object",
+      "properties": {
+        "session_id": {
+          "type": "string"
+        },
+        "protocol": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "protocol_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "conversation_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "run_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "step_index": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "cwd_commitment": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/commitment"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "session_id"
+      ],
+      "additionalProperties": false
+    },
+    "trace": {
+      "type": "object",
+      "properties": {
+        "trace_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{32}$"
+        },
+        "span_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{16}$"
+        },
+        "parent_span_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{16}$"
+        },
+        "traceparent": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "jsonrpc_id": {
+          "type": [
+            "string",
+            "integer",
+            "null"
+          ]
+        },
+        "tool_use_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "gateway_request_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "secretScan": {
+      "type": "object",
+      "properties": {
+        "secret_material_detected": {
+          "type": "boolean"
+        },
+        "types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "secret_material_detected"
+      ],
+      "additionalProperties": false
+    },
+    "classification": {
+      "enum": [
+        "public",
+        "internal",
+        "confidential",
+        "restricted",
+        "unclassified",
+        "protected_a",
+        "protected_b",
+        "protected_c",
+        "confidential_gov",
+        "secret",
+        "top_secret",
+        null
+      ]
+    },
+    "payloadRef": {
+      "type": "object",
+      "properties": {
+        "commitment": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/commitment"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "size_bytes": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "secret_scan": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/secretScan"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "classification": {
+          "$ref": "#/$defs/classification"
+        },
+        "content_type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "action": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "enum": [
+            "tool_call",
+            "model_call",
+            "code_exec",
+            "file_write",
+            "data_read",
+            "data_write",
+            "data_delete",
+            "network_request",
+            "message_send",
+            "payment",
+            "deploy",
+            "credential_access",
+            "delegation",
+            "config_change",
+            "other"
+          ]
+        },
+        "tool": {
+          "type": "object",
+          "properties": {
+            "protocol": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "server_name": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "server_version": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "server_uri_commitment": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/commitment"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "transport": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "tool_name": {
+              "type": "string"
+            },
+            "tool_definition_hash": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/hash"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "annotations": {
+              "type": [
+                "object",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "tool_name"
+          ],
+          "additionalProperties": false
+        },
+        "operation": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "input": {
+          "$ref": "#/$defs/payloadRef"
+        },
+        "payload_commitment": {
+          "$ref": "#/$defs/commitmentString"
+        },
+        "intent": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "stated_reason_commitment": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/commitment"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "user_request_commitment": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/commitment"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "consequence": {
+          "enum": [
+            "none",
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ]
+        },
+        "reversibility": {
+          "enum": [
+            "reversible",
+            "compensable",
+            "irreversible",
+            "unknown"
+          ]
+        },
+        "idempotency_key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "retry_of_receipt_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*(\\.[a-z0-9_]+)+$",
+          "description": "Dotted action type, aligned with the Agent Receipt Protocol taxonomy where one exists (e.g. filesystem.file.delete)."
+        }
+      },
+      "required": [
+        "category",
+        "tool",
+        "payload_commitment",
+        "consequence",
+        "reversibility"
+      ],
+      "additionalProperties": false
+    },
+    "resource": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "identifier_commitment": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/commitment"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "uri": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "owner": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "classification": {
+          "$ref": "#/$defs/classification"
+        },
+        "pii_categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "access_mode": {
+          "enum": [
+            "read",
+            "write",
+            "create",
+            "delete",
+            "execute",
+            "transfer",
+            "admin"
+          ]
+        },
+        "records_affected": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "jurisdiction": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "access_mode"
+      ],
+      "additionalProperties": false
+    },
+    "credential": {
+      "type": "object",
+      "properties": {
+        "credential_id": {
+          "type": "string",
+          "description": "Identifier of the credential (key id, client id, role ARN). NEVER secret material."
+        },
+        "type": {
+          "enum": [
+            "oauth_token",
+            "api_key",
+            "service_account",
+            "ssh_key",
+            "cloud_role",
+            "jit_token",
+            "password",
+            "certificate",
+            "session_cookie",
+            "other"
+          ]
+        },
+        "issuer": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "owner": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/owner"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "granted_by": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "issued_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "just_in_time": {
+          "type": "boolean"
+        },
+        "exposure": {
+          "type": "object",
+          "properties": {
+            "secret_material_in_model_context": {
+              "type": "boolean"
+            },
+            "placeholder_used": {
+              "type": "boolean"
+            },
+            "reached_sinks": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "log",
+                      "file",
+                      "prompt",
+                      "tool_output",
+                      "network",
+                      "clipboard",
+                      "ticket",
+                      "other"
+                    ]
+                  },
+                  "location_commitment": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/commitment"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "readable_by": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "type"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "secret_material_in_model_context",
+            "placeholder_used"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "credential_id",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "delegationHop": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "enum": [
+                "human",
+                "agent",
+                "service"
+              ]
+            },
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "to": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "enum": [
+                "human",
+                "agent",
+                "service"
+              ]
+            },
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "scope": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "granted_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "grant_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "depth": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "granted_at"
+      ],
+      "additionalProperties": false
+    },
+    "policyRef": {
+      "type": "object",
+      "properties": {
+        "engine": {
+          "type": "string"
+        },
+        "policy_id": {
+          "type": "string"
+        },
+        "policy_version": {
+          "type": "string"
+        },
+        "policy_hash": {
+          "$ref": "#/$defs/hash"
+        }
+      },
+      "required": [
+        "engine",
+        "policy_id",
+        "policy_version",
+        "policy_hash"
+      ],
+      "additionalProperties": false
+    },
+    "authorization": {
+      "type": "object",
+      "properties": {
+        "decision": {
+          "enum": [
+            "allow",
+            "deny",
+            "require_approval"
+          ]
+        },
+        "rule_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "allowed_by_default": {
+          "type": "boolean"
+        },
+        "policy": {
+          "$ref": "#/$defs/policyRef"
+        },
+        "evaluated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "enforcer": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string"
+            },
+            "id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "key_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "additionalProperties": false
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "decision",
+        "policy",
+        "evaluated_at"
+      ],
+      "additionalProperties": false
+    },
+    "approverEntry": {
+      "type": "object",
+      "properties": {
+        "approver": {
+          "$ref": "#/$defs/subject"
+        },
+        "method": {
+          "enum": [
+            "cli",
+            "slack",
+            "teams",
+            "mobile",
+            "email",
+            "ticket",
+            "web",
+            "api"
+          ]
+        },
+        "decision": {
+          "enum": [
+            "approved",
+            "denied"
+          ]
+        },
+        "decided_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "decision_latency_ms": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "approved_payload_commitment": {
+          "$ref": "#/$defs/commitmentString"
+        },
+        "evidence_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "signature": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "alg": {
+              "type": "string"
+            },
+            "key_id": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "alg",
+            "key_id",
+            "value"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "approver",
+        "method",
+        "decision",
+        "decided_at",
+        "approved_payload_commitment"
+      ],
+      "additionalProperties": false
+    },
+    "approval": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "not_required",
+            "pending",
+            "approved",
+            "denied",
+            "expired_or_consumed",
+            "rejected_sod",
+            "bypassed",
+            "break_glass"
+          ]
+        },
+        "approval_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "request_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "approvers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/approverEntry"
+          }
+        },
+        "quorum": {
+          "type": "object",
+          "properties": {
+            "required": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "obtained": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "required",
+            "obtained"
+          ],
+          "additionalProperties": false
+        },
+        "separation_of_duties": {
+          "type": "object",
+          "properties": {
+            "required": {
+              "type": "boolean"
+            },
+            "satisfied": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "required",
+            "satisfied"
+          ],
+          "additionalProperties": false
+        },
+        "break_glass": {
+          "type": "object",
+          "properties": {
+            "invoked_by": {
+              "$ref": "#/$defs/subject"
+            },
+            "reason": {
+              "type": "string"
+            },
+            "reviewed_by": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/subject"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "reviewed_at": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "invoked_by",
+            "reason"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "required",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "buckets": {
+      "type": "object",
+      "properties": {
+        "input_tokens": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "output_tokens": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "cache_write_tokens": {
+          "type": "object",
+          "properties": {
+            "ttl_5m": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "ttl_1h": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "ttl_5m",
+            "ttl_1h"
+          ],
+          "additionalProperties": false
+        },
+        "cache_read_tokens": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "reasoning_tokens": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "description": "Informational: already included in output_tokens"
+        }
+      },
+      "required": [
+        "input_tokens",
+        "output_tokens",
+        "cache_write_tokens",
+        "cache_read_tokens"
+      ],
+      "additionalProperties": false
+    },
+    "usageLine": {
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "requests": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "buckets": {
+          "$ref": "#/$defs/buckets"
+        },
+        "tool_fees": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "units": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "amount": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/decimal"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "type",
+              "units"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "amount": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/decimal"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lines": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "$ref": "#/$defs/decimal"
+          }
+        },
+        "note": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "service_tier": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "region": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "batch": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "provider",
+        "model",
+        "buckets"
+      ],
+      "additionalProperties": false
+    },
+    "cost": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[A-Z]{3}$"
+        },
+        "usage": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/usageLine"
+          }
+        },
+        "amount": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/decimal"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "method": {
+          "enum": [
+            "list_price",
+            "list_price_batch",
+            "contract_rate",
+            "invoice_allocated",
+            null
+          ]
+        },
+        "pricing_ref": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "pricing_id": {
+              "type": "string"
+            },
+            "effective_date": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "hash": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/hash"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "pricing_id"
+          ],
+          "additionalProperties": false
+        },
+        "allocation": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "cost_center": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "project": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "customer": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "feature": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "source": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reconciliation": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "enum": [
+                "unreconciled",
+                "reconciled",
+                "variance"
+              ]
+            },
+            "invoice_ref": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "invoice_period": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "variance": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/decimal"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "status"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "usage"
+      ],
+      "additionalProperties": false
+    },
+    "outcome": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "success",
+            "tool_error",
+            "error",
+            "denied",
+            "cancelled",
+            "timeout",
+            "no_response",
+            "partial"
+          ]
+        },
+        "started_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ended_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "duration_ms": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "output": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/payloadRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "code": {
+              "type": [
+                "integer",
+                "string"
+              ]
+            },
+            "message_commitment": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/commitment"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "side_effects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "ref": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "compensating_action_receipt_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "detail": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "risk": {
+      "type": "object",
+      "properties": {
+        "signals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "severity": {
+                "enum": [
+                  "info",
+                  "low",
+                  "medium",
+                  "high",
+                  "critical"
+                ]
+              },
+              "source": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "detail": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "type",
+              "severity"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "guardrails": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "version": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "result": {
+                "enum": [
+                  "pass",
+                  "fail",
+                  "flag"
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "result"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "compliance": {
+      "type": "object",
+      "properties": {
+        "controls": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "framework": {
+                "type": "string"
+              },
+              "control_id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "framework",
+              "control_id"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "retention": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "policy": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "delete_after": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "legal_hold": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "privacy": {
+      "type": "object",
+      "properties": {
+        "commitment_key_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "redactions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "pii_categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "shredding_key_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "links": {
+      "type": "object",
+      "properties": {
+        "parent_receipt_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "approval_receipt_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "supersedes_receipt_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "related": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reversal_of": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "receipt_id of the action this receipt reverses."
+        }
+      },
+      "additionalProperties": false
+    },
+    "chain": {
+      "type": "object",
+      "properties": {
+        "stream_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._:-]{1,200}$"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "prev_hash": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/hash"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "terminal": {
+          "const": true,
+          "description": "Present only on the last receipt of a stream; no receipt may follow (verifiers fail 'receipt after terminal'). Absence means 'no claim'."
+        },
+        "status": {
+          "enum": [
+            "complete",
+            "interrupted"
+          ],
+          "description": "Why the stream ended; only valid with terminal: true."
+        }
+      },
+      "required": [
+        "stream_id",
+        "sequence",
+        "prev_hash"
+      ],
+      "additionalProperties": false,
+      "dependentRequired": {
+        "status": [
+          "terminal"
+        ]
+      }
+    },
+    "seal": {
+      "type": "object",
+      "properties": {
+        "canonicalization": {
+          "const": "JCS-RFC8785-HISTOR"
+        },
+        "hash_alg": {
+          "const": "sha-256"
+        },
+        "content_hash": {
+          "$ref": "#/$defs/hash"
+        },
+        "sig_alg": {
+          "const": "ed25519"
+        },
+        "key_id": {
+          "type": "string"
+        },
+        "signature": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{86}$"
+        }
+      },
+      "required": [
+        "canonicalization",
+        "hash_alg",
+        "content_hash",
+        "sig_alg",
+        "key_id",
+        "signature"
+      ],
+      "additionalProperties": false
+    },
+    "proof": {
+      "type": "object",
+      "properties": {
+        "batch_id": {
+          "type": "string"
+        },
+        "root": {
+          "$ref": "#/$defs/hash"
+        },
+        "tree_size": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "leaf_index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "audit_path": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "anchors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/anchor"
+          }
+        }
+      },
+      "required": [
+        "batch_id",
+        "root",
+        "tree_size",
+        "leaf_index",
+        "audit_path"
+      ],
+      "additionalProperties": false
+    },
+    "anchor": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "opentimestamps",
+            "transparency_log",
+            "rfc3161_tsa",
+            "internal_log",
+            "permissioned_ledger",
+            "other"
+          ]
+        },
+        "ref": {
+          "type": "string"
+        },
+        "root": {
+          "$ref": "#/$defs/hash"
+        },
+        "anchored_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "confirmed_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "verifier_hint": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "ref",
+        "root",
+        "anchored_at"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

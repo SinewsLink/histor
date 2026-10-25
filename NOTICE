@@ -1,0 +1,15 @@
+SL Histor
+Copyright 2026 SinewsLink Inc.
+
+This product includes files from the Agent Receipt Protocol project
+(https://github.com/agent-receipts/obsigna), licensed under the Apache License 2.0:
+packages/histor-core/vendor/agent-receipts/*
+
+Design ideas adopted with credit (no code copied):
+- Agent Receipt Protocol / Obsigna: terminal chain markers, out-of-band length/hash
+  witnesses, in-chain key rotation signed by the outgoing key, cross-language
+  conformance vectors with a MUST-reject corpus, out-of-process signing daemon,
+  static web verifier.
+- Enlil (enlilhq/enlil, Business Source License 1.1): tool-definition poisoning
+  indicators, loop detection, a single-command local viewer, and a per-request
+  overhead benchmark gated in CI. No Enlil code is included in this repository.

@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "records (histor)": {
+      "command": "npx",
+      "args": ["histor-mcp-proxy", "--config", "/ABSOLUTE/PATH/.histor/histor.config.json", "--", "node", "/ABSOLUTE/PATH/examples/demo-mcp-server.js"],
+      "env": { "HISTOR_PRINCIPAL": "founder@sinewslink.com" }
+    }
+  }
+}

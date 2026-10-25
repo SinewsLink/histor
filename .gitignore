@@ -1,0 +1,9 @@
+node_modules/
+.histor/
+*.batch-*.json
+.DS_Store
+
+# Claude Code: only the public contributor skills are tracked
+.claude/*
+!.claude/skills/
+CLAUDE.local.md

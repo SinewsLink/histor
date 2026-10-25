@@ -1,0 +1,128 @@
+{
+  "histor_version": "0.1",
+  "receipt_id": "01a14d86-16a3-7e3b-94d9-47e6eb401f3f",
+  "kind": "action",
+  "issued_at": "2026-10-18T05:39:55.685Z",
+  "issuer": {
+    "type": "mcp-proxy",
+    "software": {
+      "name": "histor-mcp-proxy",
+      "version": "0.1.0"
+    },
+    "host": "vm",
+    "key_id": "ed25519:ce8afd93723fa88dc38a99f860041c9c"
+  },
+  "tenant": {
+    "org_id": "sinewslink",
+    "environment": "dev",
+    "deployment_id": "founder-laptop",
+    "data_residency": "CA"
+  },
+  "principal": {
+    "subject_id": "agent-operator@sinewslink.com",
+    "idp": "env",
+    "authenticated": false
+  },
+  "agent": {
+    "agent_id": "sl-ops-agent",
+    "name": "SinewsLink Ops Agent",
+    "version": "0.1.0",
+    "owner": {
+      "subject_id": "founder@sinewslink.com",
+      "team": "engineering"
+    },
+    "client": {
+      "name": "demo-agent",
+      "version": "0.1"
+    }
+  },
+  "session": {
+    "session_id": "01a14d86-1678-7f86-bad8-9ae48828c4bf",
+    "protocol": "mcp",
+    "protocol_version": "2025-06-18"
+  },
+  "trace": {
+    "jsonrpc_id": 3,
+    "traceparent": null
+  },
+  "action": {
+    "category": "tool_call",
+    "tool": {
+      "protocol": "mcp",
+      "server_name": "demo-records",
+      "server_version": "1.0.0",
+      "tool_name": "list_records",
+      "tool_definition_hash": "sha256:beef556f6ca658929bd743cb85697376f17b4e18699be0d87736326bdd8eae04",
+      "annotations": {
+        "readOnlyHint": true
+      }
+    },
+    "input": {
+      "commitment": {
+        "alg": "hmac-sha256",
+        "key_id": "ck:ae7c0b07e548404a",
+        "value": "hmac-sha256:105c2fc82a15300fb3de002c871d4ac5e050f15e629ca26e563b1bb9ba7475ef"
+      },
+      "size_bytes": 2,
+      "secret_scan": {
+        "secret_material_detected": false,
+        "types": []
+      }
+    },
+    "payload_commitment": "hmac-sha256:af685d2c81ac054798fccb0e501f7bfa36fac5499d87a252f5bf60ce51e58d71",
+    "consequence": "none",
+    "reversibility": "reversible"
+  },
+  "authorization": {
+    "decision": "allow",
+    "rule_id": "reads",
+    "allowed_by_default": false,
+    "policy": {
+      "engine": "histor-reference",
+      "policy_id": "sinewslink-default",
+      "policy_version": "2026-10-10.1",
+      "policy_hash": "sha256:804601e8152da2c341f537a39547f732ae81a8c30d24d7acc68d5e3ad3becf53"
+    },
+    "evaluated_at": "2026-10-18T05:39:55.683Z",
+    "enforcer": {
+      "type": "mcp-proxy",
+      "key_id": "ed25519:ce8afd93723fa88dc38a99f860041c9c"
+    }
+  },
+  "approval": {
+    "required": false,
+    "status": "not_required"
+  },
+  "outcome": {
+    "status": "success",
+    "started_at": "2026-10-18T05:39:55.683Z",
+    "ended_at": "2026-10-18T05:39:55.684Z",
+    "duration_ms": 0,
+    "output": {
+      "commitment": {
+        "alg": "hmac-sha256",
+        "key_id": "ck:ae7c0b07e548404a",
+        "value": "hmac-sha256:52ea3c74c6f84e8255739d5f94636e77692629a0cf34bc6b9e67ddbebad5c227"
+      },
+      "size_bytes": 194,
+      "secret_scan": {
+        "secret_material_detected": false,
+        "types": []
+      }
+    },
+    "error": null
+  },
+  "chain": {
+    "stream_id": "demo-stream.01a14d86-1678-7f86-bad8-9ae48828c4bf",
+    "sequence": 2,
+    "prev_hash": "sha256:57fc177f2efd68aef067cc1fdcc21c63e5acc4fac3c574d435dea8619ce53b44"
+  },
+  "seal": {
+    "canonicalization": "JCS-RFC8785-HISTOR",
+    "hash_alg": "sha-256",
+    "content_hash": "sha256:4d79ab936604d32a0cd948cf519ae4ed81bb12e695e611ebd904763c59bcf84e",
+    "sig_alg": "ed25519",
+    "key_id": "ed25519:ce8afd93723fa88dc38a99f860041c9c",
+    "signature": "OnMipuLkCmRxP4kuxhBj6tCJMXHkGruittw2E079RN8T-zdeHomQXv_6M8dZgJS78BY0E3ndfXfsnJH72kgABA"
+  }
+}

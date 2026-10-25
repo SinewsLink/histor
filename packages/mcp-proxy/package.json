@@ -1,0 +1,28 @@
+{
+  "name": "@sinewslink/histor-mcp-proxy",
+  "version": "0.2.0",
+  "description": "Transparent stdio MCP proxy that emits signed, hash-chained Histor receipts for every tool call, with policy classification and bound human approvals.",
+  "type": "module",
+  "bin": {
+    "histor-mcp-proxy": "bin/histor-mcp-proxy.js"
+  },
+  "dependencies": {
+    "@sinewslink/histor-core": "0.2.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SinewsLink/histor.git",
+    "directory": "packages/mcp-proxy"
+  },
+  "homepage": "https://github.com/SinewsLink/histor#readme",
+  "bugs": {
+    "url": "https://github.com/SinewsLink/histor/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
