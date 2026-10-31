@@ -4,6 +4,11 @@
 
 In Homer, the *histor* is the trusted witness whose account settles a dispute. Gateways answer *"can this happen?"* and observability answers *"why did it break?"*. SL Histor answers the auditor: **"what did your agents do, who approved it, and can you prove it?"** It sits beside your stack, never in your traffic path.
 
+<p align="center">
+  <img src="docs/assets/sl-histor-architecture.svg" alt="Your AI agents, MCP tools and model APIs feed SL Histor on your own servers, which captures each action, gets human approval for risky ones, signs and chains every record, and batches them with Merkle proofs. Out come auditor verification, cost reconciled to the invoice, W3C credential export and a batch root ready to timestamp publicly, where only a hash leaves." width="100%">
+</p>
+<p align="center"><sub><a href="docs/assets/sl-histor-architecture-fr.svg">Version française du schéma</a></sub></p>
+
 **Built on open standards, not a new silo.** Receipts are canonicalized with RFC 8785, signed with Ed25519 (RFC 8032), chained by hash and batched into Merkle trees with inclusion proofs (RFC 9162, the design behind Certificate Transparency). Histor works where agents already run, the Model Context Protocol and Claude Code hooks, and exports to W3C Verifiable Credentials so evidence is never locked in. OpenTelemetry GenAI mapping is documented in `docs/04-otel-mapping.md`; the exporter is in progress.
 
 **What it adds that logs and traces don't:** approvals bound to the exact payload and usable once, with separation of duties; keyed commitments so receipts prove what happened without holding the data; cost per token bucket reconciled to the provider invoice; and detection of edited, deleted or replayed actions.
@@ -21,6 +26,19 @@ $ npm run demo
 9) edited receipt detected · deleted receipt detected
 10) cached agent turn priced correctly vs naive → naive is off by 369%
 ```
+
+## What each record holds
+Every agent action becomes one signed record: who, what, under what authority, the outcome and the cost. The raw content stays out.
+- **Who:** the person the agent acts for and how they were identified, the agent, and the session.
+- **What:** the tool and server called, and when.
+- **What was sent and returned, without the content:** a keyed commitment of the arguments and the result. Anyone holding the original data can prove it matches; the record alone reveals nothing, so secrets and personal data stay out of the evidence trail.
+- **Authority:** the policy rule and risk level that applied and, for risky actions, who approved that exact payload, that the approval was used once, and that the approver was not the requester.
+- **Outcome:** executed or blocked, and why. Refusals are evidence too.
+- **Warning signs:** leaked secrets, tampered tool descriptions, tools whose definitions changed since they were last seen, and agents stuck in a loop.
+- **Cost, for model calls:** tokens by bucket (input, output, cache reads, cache writes), priced in exact decimals and reconcilable to the provider invoice.
+- **Tamper evidence:** sequence number, hash link to the previous record, and an Ed25519 signature. Run `histor signer` and the signing key sits in a separate process the agent cannot reach. Editing, deleting or reordering anything breaks verification.
+
+Sessions also get opening and closing records, so a truncated log is detectable, and Histor records its own gaps rather than staying silent.
 
 ## What's in the box
 | Package | What it does |

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 90 1200 540" width="1200" height="540" role="img" aria-labelledby="t d" lang="fr">
+<title id="t">Comment SL Histor transforme les actions des agents en preuves</title><desc id="d">Vos agents d’IA, vos outils MCP et vos API de modèles alimentent SL Histor, qui fonctionne sur vos propres serveurs. Il saisit chaque action, obtient une approbation humaine pour les actions à risque, signe et enchaîne chaque enregistrement, puis les regroupe en lots avec des preuves de Merkle. Résultat : un auditeur peut vérifier la preuve, le coût est rapproché de la facture, la preuve s’exporte en attestations W3C, et la racine du lot est prête à être horodatée publiquement : seule une empreinte quitte vos serveurs.</desc>
+<style>
+:root{--bg:#0b0c0e;--card:#1c1d20;--hair:#2c2d31;--ink:#f5f5f7;--muted:#a1a1a6;--sig:#7fa6e0;--frame:#6b6c72}
+@media (prefers-color-scheme: light){:root{--bg:#ffffff;--card:#ffffff;--hair:#e0e0e0;--ink:#1d1d1f;--muted:#6e6e73;--sig:#3d68a8;--frame:#8a8a8f}}
+.bg{fill:var(--bg)}
+.card{fill:var(--card);stroke:var(--hair);stroke-width:1}
+.frame{fill:none;stroke:var(--frame);stroke-width:1;stroke-dasharray:2 6;stroke-linecap:round}
+.t{font:600 20px Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;letter-spacing:-0.2px;fill:var(--ink)}
+.s{font:400 15px Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;fill:var(--muted)}
+.lab{font:500 12px "Geist Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:1.2px;fill:var(--muted)}
+.rail{fill:none;stroke:var(--sig);stroke-opacity:.28;stroke-width:1.5}
+.flow{fill:none;stroke:var(--sig);stroke-width:1.5;stroke-dasharray:4 10;stroke-linecap:round;animation:flow 1.1s linear infinite}
+.pulse{fill:var(--sig)}
+@keyframes flow{to{stroke-dashoffset:-14}}
+@media (prefers-reduced-motion: reduce){.flow{animation:none}.pulse{display:none}}
+</style>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="var(--sig)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker>
+<path id="p-in1" d="M320 212 H428"/>
+<path id="p-in2" d="M320 322 H356 V232 H428"/>
+<path id="p-in3" d="M320 432 H376 V248 H428"/>
+<path id="p-d1" d="M600 254 V278"/>
+<path id="p-d2" d="M600 364 V388"/>
+<path id="p-d3" d="M600 474 V498"/>
+<path id="p-o1" d="M770 400 H810 V212 H878"/>
+<path id="p-o2" d="M770 416 H830 V322 H878"/>
+<path id="p-o3" d="M770 432 H878"/>
+<path id="p-o4" d="M770 542 H878"/>
+</defs>
+<rect class="bg" y="90" width="1200" height="540"/>
+<rect x="400" y="114" width="400" height="490" rx="28" class="frame"/>
+<text x="60" y="150" class="lab">VOTRE ENVIRONNEMENT</text>
+<text x="430" y="150" class="lab">SL HISTOR, SUR VOS SERVEURS</text>
+<text x="880" y="150" class="lab">PREUVES</text>
+<path d="M320 212 H428" class="rail" marker-end="url(#ah)"/><path d="M320 212 H428" class="flow"/>
+<path d="M320 322 H356 V232 H428" class="rail" marker-end="url(#ah)"/><path d="M320 322 H356 V232 H428" class="flow"/>
+<path d="M320 432 H376 V248 H428" class="rail" marker-end="url(#ah)"/><path d="M320 432 H376 V248 H428" class="flow"/>
+<path d="M600 254 V278" class="rail" marker-end="url(#ah)"/><path d="M600 254 V278" class="flow"/>
+<path d="M600 364 V388" class="rail" marker-end="url(#ah)"/><path d="M600 364 V388" class="flow"/>
+<path d="M600 474 V498" class="rail" marker-end="url(#ah)"/><path d="M600 474 V498" class="flow"/>
+<path d="M770 400 H810 V212 H878" class="rail" marker-end="url(#ah)"/><path d="M770 400 H810 V212 H878" class="flow"/>
+<path d="M770 416 H830 V322 H878" class="rail" marker-end="url(#ah)"/><path d="M770 416 H830 V322 H878" class="flow"/>
+<path d="M770 432 H878" class="rail" marker-end="url(#ah)"/><path d="M770 432 H878" class="flow"/>
+<path d="M770 542 H878" class="rail" marker-end="url(#ah)"/><path d="M770 542 H878" class="flow"/>
+<g class="box"><rect x="60" y="170" width="260" height="84" rx="18" class="card"/><rect x="76" y="192" width="4" height="40" rx="2" fill="#4675ba"/><text x="96" y="207" class="t">Agents d’IA</text><text x="96" y="231" class="s">goose, Claude Code</text></g>
+<g class="box"><rect x="60" y="280" width="260" height="84" rx="18" class="card"/><rect x="76" y="302" width="4" height="40" rx="2" fill="#4675ba"/><text x="96" y="317" class="t">Outils MCP</text><text x="96" y="341" class="s">Tout serveur stdio</text></g>
+<g class="box"><rect x="60" y="390" width="260" height="84" rx="18" class="card"/><rect x="76" y="412" width="4" height="40" rx="2" fill="#4675ba"/><text x="96" y="427" class="t">API de modèles</text><text x="96" y="451" class="s">Anthropic, OpenAI</text></g>
+<g class="box"><rect x="430" y="170" width="340" height="84" rx="18" class="card"/><rect x="446" y="192" width="4" height="40" rx="2" fill="#34a851"/><text x="466" y="207" class="t">Capture</text><text x="466" y="231" class="s">Proxy, hook ou SDK</text></g>
+<g class="box"><rect x="430" y="280" width="340" height="84" rx="18" class="card"/><rect x="446" y="302" width="4" height="40" rx="2" fill="#34a851"/><text x="466" y="317" class="t">Approbation humaine</text><text x="466" y="341" class="s">Action exacte, usage unique</text></g>
+<g class="box"><rect x="430" y="390" width="340" height="84" rx="18" class="card"/><rect x="446" y="412" width="4" height="40" rx="2" fill="#34a851"/><text x="466" y="427" class="t">Signature et chaînage</text><text x="466" y="451" class="s">Ed25519, signataire distinct en option</text></g>
+<g class="box"><rect x="430" y="500" width="340" height="84" rx="18" class="card"/><rect x="446" y="522" width="4" height="40" rx="2" fill="#34a851"/><text x="466" y="537" class="t">Lots et ancrage</text><text x="466" y="561" class="s">Preuves de Merkle</text></g>
+<g class="box"><rect x="880" y="170" width="260" height="84" rx="18" class="card"/><rect x="896" y="192" width="4" height="40" rx="2" fill="#f9bc15"/><text x="916" y="207" class="t">L’auditeur vérifie</text><text x="916" y="231" class="s">CLI ou navigateur</text></g>
+<g class="box"><rect x="880" y="280" width="260" height="84" rx="18" class="card"/><rect x="896" y="302" width="4" height="40" rx="2" fill="#f9bc15"/><text x="916" y="317" class="t">Coût vs facture</text><text x="916" y="341" class="s">Par type de jeton</text></g>
+<g class="box"><rect x="880" y="390" width="260" height="84" rx="18" class="card"/><rect x="896" y="412" width="4" height="40" rx="2" fill="#f9bc15"/><text x="916" y="427" class="t">Export portable</text><text x="916" y="451" class="s">Attestations W3C</text></g>
+<g class="box"><rect x="880" y="500" width="260" height="84" rx="18" class="card"/><rect x="896" y="522" width="4" height="40" rx="2" fill="#f9bc15"/><text x="916" y="537" class="t">Horodatage public</text><text x="916" y="561" class="s">Seule l’empreinte sort</text></g>
+<circle r="3.5" class="pulse" opacity="0"><animateMotion dur="1.4s" begin="0s" repeatCount="indefinite" calcMode="linear"><mpath href="#p-in1"/></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.85;1" dur="1.4s" begin="0s" repeatCount="indefinite"/></circle>
+<circle r="3.5" class="pulse" opacity="0"><animateMotion dur="1.8s" begin="0.5s" repeatCount="indefinite" calcMode="linear"><mpath href="#p-in2"/></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.85;1" dur="1.8s" begin="0.5s" repeatCount="indefinite"/></circle>
+<circle r="3.5" class="pulse" opacity="0"><animateMotion dur="2.0s" begin="1s" repeatCount="indefinite" calcMode="linear"><mpath href="#p-in3"/></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.85;1" dur="2.0s" begin="1s" repeatCount="indefinite"/></circle>
+<circle r="3.5" class="pulse" opacity="0"><animateMotion dur="0.8s" begin="0.3s" repeatCount="indefinite" calcMode="linear"><mpath href="#p-d1"/></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.85;1" dur="0.8s" begin="0.3s" repeatCount="indefinite"/></circle>
+<circle r="3.5" class="pulse" opacity="0"><animateMotion dur="0.8s" begin="0.9s" repeatCount="indefinite" calcMode="linear"><mpath href="#p-d2"/></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.85;1" dur="0.8s" begin="0.9s" repeatCount="indefinite"/></circle>
+<circle r="3.5" class="pulse" opacity="0"><animateMotion dur="0.8s" begin="1.5s" repeatCount="indefinite" calcMode="linear"><mpath href="#p-d3"/></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.85;1" dur="0.8s" begin="1.5s" repeatCount="indefinite"/></circle>
+<circle r="3.5" class="pulse" opacity="0"><animateMotion dur="2.0s" begin="0.2s" repeatCount="indefinite" calcMode="linear"><mpath href="#p-o1"/></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.85;1" dur="2.0s" begin="0.2s" repeatCount="indefinite"/></circle>
+<circle r="3.5" class="pulse" opacity="0"><animateMotion dur="1.7s" begin="0.8s" repeatCount="indefinite" calcMode="linear"><mpath href="#p-o2"/></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.85;1" dur="1.7s" begin="0.8s" repeatCount="indefinite"/></circle>
+<circle r="3.5" class="pulse" opacity="0"><animateMotion dur="1.1s" begin="1.2s" repeatCount="indefinite" calcMode="linear"><mpath href="#p-o3"/></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.85;1" dur="1.1s" begin="1.2s" repeatCount="indefinite"/></circle>
+<circle r="3.5" class="pulse" opacity="0"><animateMotion dur="1.1s" begin="0.6s" repeatCount="indefinite" calcMode="linear"><mpath href="#p-o4"/></animateMotion><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.85;1" dur="1.1s" begin="0.6s" repeatCount="indefinite"/></circle>
+</svg>
