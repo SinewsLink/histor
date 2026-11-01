@@ -62,7 +62,7 @@ npx histor serve                     # local viewer at http://127.0.0.1:7337
 Wrap an MCP server or add the Claude Code hook: see [docs/05-integration-guide.md](docs/05-integration-guide.md). For production, run `histor signer` so the signing key never sits in the agent's process.
 
 ## Measured overhead
-`npm test` runs a benchmark that fails CI on regression. On a typical runner: about **0.13 ms** median to commit, scan and seal a receipt in memory, and about **0.5 ms** median for a durable (fsync'd) append.
+`npm test` runs a benchmark that fails CI on regression. On GitHub's Linux runners the median is under **1 ms** to commit, scan and seal a receipt in memory, and under **2 ms** for a durable (fsync'd) append.
 
 ## Status and licence
 v0.2.0, a working reference implementation of the Histor receipt spec v0.1, with 33 tests. Apache-2.0. © 2026 SinewsLink Inc. See NOTICE for third-party credits. Commercial SL Histor (self-hosted ledger, approvals app, auditor portal, framework packs, invoice reconciliation) is available from SinewsLink.

@@ -1,0 +1,3 @@
+# Keep LF everywhere: CLI shebangs break on Linux and macOS with CRLF, and signed test vectors are byte-exact
+* text=auto eol=lf
+*.png binary
