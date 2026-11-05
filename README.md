@@ -4,12 +4,33 @@
 
 In Homer, the *histor* is the trusted witness whose account settles a dispute. Gateways answer *"can this happen?"* and observability answers *"why did it break?"*. SL Histor answers the auditor: **"what did your agents do, who approved it, and can you prove it?"** It sits beside your stack, never in your traffic path.
 
+## How SL Histor helps
+
+<p align="center">
+  <img src="docs/assets/how-histor-helps.svg" width="880" alt="Five situations, each showing what you have without SL Histor and what you get with it. Full text below.">
+</p>
+
+<details>
+<summary>Read the five situations as text</summary>
+
+| Situation | Without | With SL Histor |
+|---|---|---|
+| **Did an agent touch production?** | Search logs the agent's own system wrote. | Every tool call through the MCP proxy is a signed record, with no change to your tool servers. |
+| **Who approved that?** | A chat message or a ticket comment. | A risky action waits for a human approval tied to that exact action, usable once, and never by the person who asked. |
+| **Prove nobody edited the record** | Trust the log's owner. | Edits, deletions, reordering and replayed approvals are detected; an auditor verifies offline with public keys, even in a browser with nothing uploaded. |
+| **The retry that pays twice** | A crashed agent session restarts and the same $500 transfer runs twice. | The retried call is refused as "approval already used"; the transfer happens once. |
+| **What did that agent really cost?** | A naive estimate that ignores prompt caching. | Cost per token type that reconciles to the provider invoice; in the demo, the naive estimate was off by 369%. |
+
+</details>
+
+## How it works
+
 <p align="center">
   <img src="docs/assets/sl-histor-architecture.svg" alt="Your AI agents, MCP tools and model APIs feed SL Histor on your own servers, which captures each action, gets human approval for risky ones, signs and chains every record, and batches them with Merkle proofs. Out come auditor verification, cost reconciled to the invoice, W3C credential export and a batch root ready to timestamp publicly, where only a hash leaves." width="100%">
 </p>
 <p align="center"><sub><a href="docs/assets/sl-histor-architecture-fr.svg">Version française du schéma</a></sub></p>
 
-**Built on open standards, not a new silo.** Receipts are canonicalized with RFC 8785, signed with Ed25519 (RFC 8032), chained by hash and batched into Merkle trees with inclusion proofs (RFC 9162, the design behind Certificate Transparency). Histor works where agents already run, the Model Context Protocol and Claude Code hooks, and exports to W3C Verifiable Credentials so evidence is never locked in. OpenTelemetry GenAI mapping is documented in `docs/04-otel-mapping.md`; the exporter is in progress.
+**Built on open standards.** Receipts are canonicalized with [RFC 8785](https://www.rfc-editor.org/rfc/rfc8785), signed with Ed25519 ([RFC 8032](https://www.rfc-editor.org/rfc/rfc8032)), chained by hash and batched into Merkle trees with inclusion proofs ([RFC 9162](https://www.rfc-editor.org/rfc/rfc9162), the design behind Certificate Transparency). Histor works where agents already run, the [Model Context Protocol](https://modelcontextprotocol.io) and Claude Code hooks, and exports to [W3C Verifiable Credentials](https://www.w3.org/TR/vc-data-model-2.0/) so evidence is never locked in. OpenTelemetry GenAI mapping is documented in `docs/04-otel-mapping.md`; the exporter is in progress.
 
 **What it adds that logs and traces don't:** approvals bound to the exact payload and usable once, with separation of duties; keyed commitments so receipts prove what happened without holding the data; cost per token bucket reconciled to the provider invoice; and detection of edited, deleted or replayed actions.
 
@@ -55,6 +76,7 @@ Sessions also get opening and closing records, so a truncated log is detectable,
 
 ## Quickstart
 ```
+git clone https://github.com/SinewsLink/histor && cd histor
 npm install && npm test && npm run demo
 npx histor init                      # keys, config and a starter policy in .histor/
 npx histor serve                     # local viewer at http://127.0.0.1:7337
